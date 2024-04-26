@@ -1,2 +1,16 @@
 pnpm run lint
 pnpm run test
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+notAllowedBranchMessage="Yout can't push to $branch branch. Please create a new branch instead."
+
+case "$branch" in
+  production)
+    echo "$notAllowedBranchMessage"
+    exit 1
+    ;;
+  development)
+    echo "$notAllowedBranchMessage"
+    exit 1
+    ;;
+esac
