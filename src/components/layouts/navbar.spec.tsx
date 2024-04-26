@@ -1,11 +1,13 @@
 import { render, screen } from "@testing-library/react";
 
 import { Navbar } from "./navbar";
+import { strings } from "./strings";
 
 describe("Navbar Component", () => {
   beforeEach(() => {
     render(<Navbar />);
   });
+
   it("Should be able to render the navbar", async () => {
     const navbarComponent = await screen.findByTestId("navbar");
     expect(navbarComponent).toBeInTheDocument();
@@ -13,7 +15,7 @@ describe("Navbar Component", () => {
 
   it("Should be able to render the Home page link element", async () => {
     const homeLinkElement = await screen.findByRole("link", {
-      name: "a",
+      name: strings.logoLetter,
     });
     expect(homeLinkElement).toBeInTheDocument();
     expect(homeLinkElement).toHaveAttribute("href", "/");
@@ -21,7 +23,7 @@ describe("Navbar Component", () => {
 
   it("Should be able to render the About // Career page link element", async () => {
     const homeLinkElement = await screen.findByRole("link", {
-      name: "sobre // carreira",
+      name: strings.about,
     });
     expect(homeLinkElement).toBeInTheDocument();
     expect(homeLinkElement).toHaveAttribute("href", "/about");
@@ -29,7 +31,7 @@ describe("Navbar Component", () => {
 
   it("Should be able to render the Projects link element", async () => {
     const homeLinkElement = await screen.findByRole("link", {
-      name: "projetos",
+      name: strings.projects,
     });
     expect(homeLinkElement).toBeInTheDocument();
     expect(homeLinkElement).toHaveAttribute("href", "/projects");
