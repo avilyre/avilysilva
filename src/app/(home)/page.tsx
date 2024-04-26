@@ -1,15 +1,13 @@
 import { Fragment } from "react";
 
-import { Navbar } from "@/components/layouts/navbar";
+import { Header } from "@/components/layouts/header";
 
 import { strings } from "./strings";
 
 export default function Home() {
   return (
     <Fragment>
-      <header>
-        <Navbar />
-      </header>
+      <Header />
 
       <main className="flex flex-col items-center justify-center p-8 text-primary">
         <h1 className="mb-8 text-center text-6xl font-semibold">
