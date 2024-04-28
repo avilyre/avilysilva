@@ -17,7 +17,7 @@ export default function Home() {
       <Header />
 
       <main>
-        <div className="mx-auto flex max-w-[490px] flex-col items-center gap-[4.75rem] px-6 lg:px-0">
+        <div className="mx-auto flex max-w-[490px] flex-col items-center gap-[4.75rem]">
           <div>
             <h1 className="-leading-6 relative select-none text-center text-6xl font-semibold text-primary lg:text-8xl">
               {strings.title}

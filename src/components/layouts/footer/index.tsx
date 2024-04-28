@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <footer
       data-testid="footer"
-      className="flex h-[88px] items-center justify-center gap-8 px-6 text-secondary lg:px-0"
+      className="mt-8 flex h-[88px] items-center justify-center gap-8 text-secondary lg:mt-16"
     >
       <a
         href={strings.linkedIn.href}
