@@ -6,7 +6,7 @@ export const Navbar = () => {
   return (
     <nav
       data-testid="navbar"
-      className="flex h-[96px] items-center justify-between px-6 lg:px-0"
+      className="flex h-[96px] items-center justify-between"
     >
       <Link
         href="/"
