@@ -19,7 +19,7 @@ export default function Home() {
       <main>
         <div className="mx-auto flex max-w-[490px] flex-col items-center gap-[4.75rem]">
           <div>
-            <h1 className="-leading-6 relative select-none text-center text-6xl font-semibold text-primary lg:text-8xl">
+            <h1 className="-leading-6 relative select-none text-center text-5xl font-semibold text-primary lg:text-7xl">
               {strings.title}
               <Image
                 src="/images/scribble.svg"
@@ -34,7 +34,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <p className="select-none text-balance text-center text-base leading-6 text-secondary">
+          <p className="select-none text-balance text-center text-base leading-relaxed text-secondary">
             {strings.description}
           </p>
 
