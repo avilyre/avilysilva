@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 
-import { Header } from "@/components/layouts/header";
-
 import { strings } from "./strings";
 
 export default function Home() {
@@ -14,10 +12,8 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Header />
-
       <main className="mt-20 lg:mt-[110px]">
-        <div className="mx-auto flex max-w-[490px] flex-col items-center gap-16 lg:gap-[3.5rem]">
+        <header className="mx-auto flex max-w-[490px] flex-col items-center gap-16 lg:gap-[3.5rem]">
           <div>
             <h1 className="-leading-6 relative select-none text-center text-6xl font-semibold text-primary lg:text-8xl">
               {strings.title}
@@ -44,7 +40,7 @@ export default function Home() {
           >
             comece por aqui - <span className="text-primary">sobre {">"}</span>
           </Link>
-        </div>
+        </header>
       </main>
     </Fragment>
   );
