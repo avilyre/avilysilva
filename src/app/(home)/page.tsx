@@ -16,10 +16,10 @@ export default function Home() {
     <Fragment>
       <Header />
 
-      <main>
-        <div className="mx-auto flex max-w-[490px] flex-col items-center gap-[4.75rem]">
+      <main className="mt-20 lg:mt-[110px]">
+        <div className="mx-auto flex max-w-[490px] flex-col items-center gap-16 lg:gap-[3.5rem]">
           <div>
-            <h1 className="-leading-6 relative select-none text-center text-5xl font-semibold text-primary lg:text-7xl">
+            <h1 className="-leading-6 relative select-none text-center text-6xl font-semibold text-primary lg:text-8xl">
               {strings.title}
               <Image
                 src="/images/scribble.svg"
@@ -34,7 +34,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <p className="select-none text-balance text-center text-base leading-relaxed text-secondary">
+          <p className="select-none text-balance text-center text-base text-secondary lg:text-xl">
             {strings.description}
           </p>
 

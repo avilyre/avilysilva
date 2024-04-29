@@ -6,7 +6,7 @@ export const Footer = () => {
   return (
     <footer
       data-testid="footer"
-      className="mt-8 flex h-[88px] items-center justify-center gap-8 text-secondary lg:mt-16"
+      className="mt-16 flex h-[88px] items-center justify-center gap-8 py-8 text-secondary lg:mt-16"
     >
       <a
         href={strings.linkedIn.href}
