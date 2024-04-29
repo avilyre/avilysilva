@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Poppins } from "next/font/google";
 
 import { Footer } from "@/components/layouts/footer";
+import { Navbar } from "@/components/layouts/navbar";
 import { generateSEO } from "@/utility/generate-seo";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
@@ -18,7 +19,10 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`bg-background ${poppins.className} h-screen`}>
         <div className="mx-auto flex h-full max-w-[800px] flex-col justify-between px-6 lg:px-0">
-          <div>{children}</div>
+          <div>
+            <Navbar />
+            {children}
+          </div>
           <Footer />
         </div>
       </body>
