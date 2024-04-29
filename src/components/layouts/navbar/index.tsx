@@ -15,7 +15,7 @@ export const Navbar = () => {
         {strings.logoLetter}
       </Link>
 
-      <div className="flex gap-4">
+      <div className="flex gap-8">
         <Link
           href="/about"
           className="text-base text-secondary underline-offset-8 transition-colors hover:text-primary"
