@@ -18,11 +18,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`bg-background ${poppins.className} h-screen`}>
-        <div className="mx-auto flex h-full max-w-[800px] flex-col justify-between px-6 lg:px-0">
-          <div>
-            <Navbar />
-            {children}
-          </div>
+        <div className="mx-auto flex h-full max-w-[800px] flex-col px-6 lg:px-0">
+          <Navbar />
+          <div className="flex-1">{children}</div>
           <Footer />
         </div>
       </body>
