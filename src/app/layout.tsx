@@ -6,7 +6,10 @@ import { Footer } from "@/components/layouts/footer";
 import { Navbar } from "@/components/layouts/navbar";
 import { generateSEO } from "@/utility/generate-seo";
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "500", "400", "600"],
+});
 
 export const metadata = async () => generateSEO();
 

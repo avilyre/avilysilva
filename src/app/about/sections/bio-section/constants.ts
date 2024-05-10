@@ -1,4 +1,4 @@
-import { EnumCompany } from "@/@types/company";
+import { Companies } from "@/@types/company";
 
 export const highlightTexts = ["2020", "fullstack", "design engineer"];
 
@@ -9,19 +9,19 @@ const commonLinkClass =
 
 export const companiesLinkMapElements = [
   [
-    EnumCompany.MERITUM,
+    Companies.MERITUM,
     `<a href='#' target='_blank' class='${commonLinkClass}'>[company-name]</a>`,
   ],
   [
-    EnumCompany.META,
+    Companies.META,
     `<a href='#' target='_blank' class='${commonLinkClass}'>[company-name]</a>`,
   ],
   [
-    EnumCompany.OLIST,
+    Companies.OLIST,
     `<a href='#' target='_blank' class='${commonLinkClass}'>[company-name]</a>`,
   ],
   [
-    EnumCompany.GAZETA_DO_POVO,
+    Companies.GAZETA_DO_POVO,
     `<a href='#' target='_blank' class='${commonLinkClass}'>[company-name]</a>`,
   ],
 ];

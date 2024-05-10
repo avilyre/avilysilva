@@ -3,9 +3,10 @@ export interface Company {
   name: string;
   role: string;
   url: string;
+  stateLocation: string;
 }
 
-export enum EnumCompany {
+export enum Companies {
   MERITUM = "meritum",
   META = "meta",
   OLIST = "olist",
