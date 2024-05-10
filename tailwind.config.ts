@@ -12,7 +12,7 @@ const config: Config = {
         primary: "#F8FAFC",
         secondary: "#94A3B8",
         tertiary: "#1E293B",
-        highlight: "#3B82F6",
+        highlight: "#F8FAFC",
         background: "#020617",
       },
       backgroundImage: {
