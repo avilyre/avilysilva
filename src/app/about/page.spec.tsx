@@ -21,10 +21,19 @@ describe("About Page Component", () => {
       const bioSection = await screen.findByTestId("bio-section");
 
       const bioImageElement = await within(bioSection).findByRole("img", {
-        name: strings.bioAlt,
+        name: strings.bio.image.alt,
       });
       expect(bioImageElement).toBeInTheDocument();
-      expect(bioImageElement).toHaveAttribute("alt", strings.bioAlt);
+      expect(bioImageElement).toHaveAttribute("alt", strings.bio.image.alt);
+    });
+
+    it("Should be able to render the title element", async () => {
+      const bioSection = await screen.findByTestId("bio-section");
+      const headingElement = await within(bioSection).findByRole("heading", {
+        name: strings.bio.title,
+      });
+      expect(headingElement).toBeInTheDocument();
+      expect(headingElement).toHaveTextContent(strings.bio.title);
     });
 
     it("Should be able to render the paragraph elements", async () => {

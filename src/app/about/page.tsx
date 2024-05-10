@@ -59,17 +59,17 @@ const About = () => {
       >
         <Image
           className="h-[150px] w-[150px] select-none rounded-lg object-cover grayscale sm:h-[229px] sm:w-[176px]"
-          src={strings.bioImage}
+          src={strings.bio.image.url}
           width={bioDefaultImageSize.width}
           height={bioDefaultImageSize.height}
-          alt={strings.bioAlt}
+          alt={strings.bio.image.alt}
         />
         <div>
           <h3 className="mb-4 select-none text-2xl font-semibold leading-tight text-primary">
-            olá, sou o avily
+            {strings.bio.title}
           </h3>
           <div className="flex flex-col gap-8">
-            {strings.bio.map(paragraph => (
+            {strings.bio.content.map(paragraph => (
               <p
                 key={paragraph}
                 className="text-balance text-base leading-relaxed text-secondary"
