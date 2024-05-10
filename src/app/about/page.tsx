@@ -10,7 +10,7 @@ import {
 } from "./constants";
 import { strings } from "./strings";
 
-export const About = () => {
+const About = () => {
   const bioDefaultImageSize = {
     width: 176,
     height: 229,

@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 
-import { About } from "./page";
+import About from "./page";
 import { strings } from "./strings";
 
 const bioAAmountParagraphs = 3;
