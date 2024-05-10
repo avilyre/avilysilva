@@ -11,7 +11,7 @@ export const CareerCard = (props: CareerCardProps) => {
   const isEndedDate = !!props.endDate;
 
   return (
-    <div data-testid="career-card" className="flex flex-col gap-[9px]">
+    <div data-testid="career-card" className="flex flex-col gap-2">
       <h3 className="text-base font-medium text-primary">{role}</h3>
       <p className="text-base text-secondary">
         <a

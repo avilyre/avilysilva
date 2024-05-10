@@ -11,7 +11,7 @@ export const CareerSection = () => {
         {strings.title}
       </h2>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col  gap-8">
         <CareerCard
           company={getCompany(Companies.MERITUM)}
           role="software engineer"
