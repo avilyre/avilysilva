@@ -2,8 +2,6 @@ import "@/styles/globals.css";
 
 import { Poppins } from "next/font/google";
 
-import { Footer } from "@/components/layouts/footer";
-import { Navbar } from "@/components/layouts/navbar";
 import { generateSEO } from "@/utility/generate-seo";
 
 const poppins = Poppins({
@@ -13,19 +11,19 @@ const poppins = Poppins({
 
 export const metadata = async () => generateSEO();
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout(props: Readonly<RootLayoutProps>) {
+  const { children } = props;
+
   return (
     <html lang="pt-BR">
-      <body className={`bg-background ${poppins.className} h-screen`}>
-        <div className="mx-auto flex h-full max-w-[800px] flex-col px-6 lg:px-0">
-          <Navbar />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
+      <body
+        className={`mx-auto max-w-[800px] bg-background px-6 lg:px-0 ${poppins.className}`}
+      >
+        {children}
       </body>
     </html>
   );
