@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 
 import { Poppins } from "next/font/google";
 
+import { Footer } from "@/components/layouts/footer";
+import { Navbar } from "@/components/layouts/navbar";
 import { generateSEO } from "@/utility/generate-seo";
 
 const poppins = Poppins({
@@ -23,7 +25,9 @@ export default function RootLayout(props: Readonly<RootLayoutProps>) {
       <body
         className={`mx-auto max-w-[800px] bg-background px-6 lg:px-0 ${poppins.className}`}
       >
-        {children}
+        <Navbar />
+        <div className="pb-16 pt-8">{children}</div>
+        <Footer />
       </body>
     </html>
   );

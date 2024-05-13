@@ -5,7 +5,7 @@ import { strings } from "./not-found.strings";
 
 const NotFound = () => {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-8 text-center text-primary">
+    <div className="flex h-[calc(100vh_-_272px)] flex-col items-center justify-center gap-8 text-center text-primary">
       <span className="block select-none text-8xl font-bold text-secondary lg:text-9xl">
         {strings.errorCode}
       </span>
