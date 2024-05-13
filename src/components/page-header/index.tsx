@@ -1,12 +1,14 @@
 import { PageHeaderProps } from "./interface";
 
 export const PageHeader = (props: PageHeaderProps) => {
-  const { title, description } = props;
+  const { title, description, hasMarginTop = false } = props;
 
   if (!title || !description) return null;
 
+  const marginTop = hasMarginTop ? "mt-8" : "";
+
   return (
-    <header data-testid="page-header" className="mb-8 mt-8 lg:mb-16">
+    <header data-testid="page-header" className={`mb-8 ${marginTop} lg:mb-16`}>
       <h1 className="select-none text-balance text-4xl font-semibold leading-tight text-primary lg:text-5xl">
         {title}
       </h1>

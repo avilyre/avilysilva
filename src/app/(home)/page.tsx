@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <Fragment>
-      <main className="mt-20 lg:mt-[110px]">
+      <main className="mt-20 h-[calc(100vh_-_360px)] max-h-[740px] lg:mt-[110px] lg:h-[calc(100vh_-_390px)]">
         <header className="mx-auto flex max-w-[490px] flex-col items-center gap-16 lg:gap-[3.5rem]">
           <div>
             <h1 className="-leading-6 relative select-none text-center text-6xl font-semibold text-primary lg:text-8xl">
