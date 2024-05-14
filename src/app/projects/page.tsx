@@ -16,9 +16,13 @@ const Projects = () => {
         description={strings.description}
       />
 
-      <h2 className="select-none text-2xl font-semibold text-primary">
-        {strings.selected}
-      </h2>
+      <section>
+        <h2 className="mb-6 select-none text-2xl font-semibold text-primary">
+          {strings.selected}
+        </h2>
+
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2"></div>
+      </section>
     </main>
   );
 };
