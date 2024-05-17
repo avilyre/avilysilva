@@ -16,6 +16,7 @@ const config: Config = {
         background: "#020617",
       },
       backgroundImage: {
+        "bg-card-placeholder": "url('/images/card-placeholder-logo.png')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

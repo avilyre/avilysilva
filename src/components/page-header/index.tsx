@@ -8,7 +8,7 @@ export const PageHeader = (props: PageHeaderProps) => {
   const marginTop = hasMarginTop ? "mt-8" : "";
 
   return (
-    <header data-testid="page-header" className={`mb-8 ${marginTop} lg:mb-16`}>
+    <header data-testid="page-header" className={`mb-16 ${marginTop}`}>
       <h1 className="select-none text-balance text-4xl font-semibold leading-tight text-primary lg:text-5xl">
         {title}
       </h1>
