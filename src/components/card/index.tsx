@@ -19,22 +19,19 @@ export const Card = (props: CardProps) => {
   const hrefURL = `/${hrefURLMap[typeURL]}/${slug}`;
 
   return (
-    <article
-      data-testid="card"
-      className="relative after:opacity-0 after:transition-opacity after:ease-in hover:after:absolute hover:after:left-1/2 hover:after:top-1/2 hover:after:z-[-1] hover:after:h-[calc(100%_+_2rem)] hover:after:w-[calc(100%_+_2rem)] hover:after:-translate-x-1/2 hover:after:-translate-y-1/2 hover:after:rounded-md hover:after:bg-slate-900 hover:after:opacity-100 hover:after:content-['']"
-    >
+    <article data-testid="card" className="group">
       <Link href={hrefURL}>
         <Image
           src={image.src}
           alt={image.alt}
           width={defaultImageSize.width}
           height={defaultImageSize.height}
-          className="mb-6 aspect-video w-full select-none rounded-md border-tertiary bg-tertiary object-cover group-hover:border"
+          className="mb-6 aspect-video w-full select-none rounded-md transition-transform"
         />
         <h3 className="mb-4 font-semibold leading-tight text-primary">
           {title}
         </h3>
-        <p className="text-balance leading-relaxed text-secondary">
+        <p className="text-balance leading-relaxed text-secondary group-hover:text-primary">
           {description}
         </p>
       </Link>
