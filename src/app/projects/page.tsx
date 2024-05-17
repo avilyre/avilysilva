@@ -1,5 +1,6 @@
 import { projects } from "@/@data/projects";
 import { Card } from "@/components/card";
+import { CardPlaceholder } from "@/components/card-placeholder";
 import { PageHeader } from "@/components/page-header";
 import { generateSEO } from "@/utility/generate-seo";
 
@@ -11,6 +12,11 @@ export const metadata = generateSEO({
 });
 
 const Projects = () => {
+  const defaultPlaceholderQuantity = 3;
+  const placeholdersToBeRendered = Math.round(
+    defaultPlaceholderQuantity / projects.length,
+  );
+
   return (
     <main>
       <PageHeader
@@ -33,6 +39,10 @@ const Projects = () => {
               slug={project.slug}
               typeURL="project"
             />
+          ))}
+
+          {[...Array(placeholdersToBeRendered)].map((_, index) => (
+            <CardPlaceholder key={index} />
           ))}
         </div>
       </section>
