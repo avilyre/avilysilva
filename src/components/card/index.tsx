@@ -6,6 +6,11 @@ import { CardProps } from "./interface";
 export const Card = (props: CardProps) => {
   const { image, title, description, typeURL, slug } = props;
 
+  const defaultImageSize = {
+    width: 380,
+    height: 240,
+  };
+
   const hrefURLMap = {
     post: "posts",
     project: "projects",
@@ -22,8 +27,8 @@ export const Card = (props: CardProps) => {
         <Image
           src={image.src}
           alt={image.alt}
-          width={image.width}
-          height={image.height}
+          width={defaultImageSize.width}
+          height={defaultImageSize.height}
           className="mb-6 aspect-video w-full select-none rounded-md border-tertiary bg-tertiary object-cover group-hover:border"
         />
         <h3 className="mb-4 font-semibold leading-tight text-primary">

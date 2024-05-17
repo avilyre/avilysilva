@@ -1,3 +1,5 @@
+import { projects } from "@/@data/projects";
+import { Card } from "@/components/card";
 import { PageHeader } from "@/components/page-header";
 import { generateSEO } from "@/utility/generate-seo";
 
@@ -21,7 +23,18 @@ const Projects = () => {
           {strings.selected}
         </h2>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2"></div>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {projects.map(project => (
+            <Card
+              key={project.id}
+              title={project.title}
+              description={project.description}
+              image={project.image}
+              slug={project.slug}
+              typeURL="project"
+            />
+          ))}
+        </div>
       </section>
     </main>
   );
