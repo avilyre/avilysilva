@@ -5,4 +5,6 @@ export const strings = {
   myRole: "minha função",
   developmentTime: "tempo estimado",
   projectType: "tipo de projeto",
+  general: "visão geral",
+  motivation: "motivação",
 };

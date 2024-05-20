@@ -86,14 +86,14 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
       <section className="mt-16 sm:mt-24">
         <header className="select-none">
           <h2 className="mb-11 select-none text-[2rem] font-semibold leading-tight text-primary">
-            visão geral
+            {strings.general}
           </h2>
         </header>
 
         <section>
           <header className="select-none">
             <h3 className="mb-6 select-none text-2xl font-semibold leading-tight text-primary">
-              motivação
+              {strings.motivation}
             </h3>
           </header>
 
