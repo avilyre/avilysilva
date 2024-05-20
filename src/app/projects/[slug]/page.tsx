@@ -82,6 +82,26 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
           </section>
         </div>
       </header>
+
+      <section className="mt-16 sm:mt-24">
+        <header className="select-none">
+          <h2 className="mb-11 select-none text-[2rem] font-semibold leading-tight text-primary">
+            visão geral
+          </h2>
+        </header>
+
+        <section>
+          <header className="select-none">
+            <h3 className="mb-6 select-none text-2xl font-semibold leading-tight text-primary">
+              motivação
+            </h3>
+          </header>
+
+          <p className="select-none text-balance leading-relaxed text-secondary">
+            {project.motivation}
+          </p>
+        </section>
+      </section>
     </main>
   );
 };
