@@ -7,4 +7,7 @@ export const strings = {
   projectType: "tipo de projeto",
   general: "visão geral",
   motivation: "motivação",
+  highlights: "destaques",
+  technologies: "principais tecnologias",
+  wasNotIncludedMinorLibraries: "não estão inclusas bibliotecas menores",
 };

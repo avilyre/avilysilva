@@ -25,11 +25,11 @@ export const projects: Project[] = [
       "lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
     highlights: ["fast loading", "acessible", "responsive", "original design"],
     technologies: [
-      "nextjs",
-      "typescript",
-      "tailwindcss",
-      "prisma",
-      "postgresql",
+      "nextjs - framework",
+      "typescript - tipagem",
+      "tailwindcss - estilização",
+      "prisma - banco de dados",
+      "postgresql - banco de dados",
     ],
     process: [
       {
