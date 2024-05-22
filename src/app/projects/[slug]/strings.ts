@@ -10,4 +10,5 @@ export const strings = {
   highlights: "destaques",
   technologies: "principais tecnologias",
   wasNotIncludedMinorLibraries: "não estão inclusas bibliotecas menores",
+  developmentProcess: "processo de desenvolvimento",
 };

@@ -1,4 +1,4 @@
-import { BadgeInfo, Figma, Github, Globe } from "lucide-react";
+import { ArrowRight, BadgeInfo, Figma, Github, Globe } from "lucide-react";
 import Image from "next/image";
 
 import { projects } from "@/@data/projects";
@@ -26,7 +26,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
       <header>
         <Image
           src={project.image.src}
-          className="mb-8 aspect-video w-full rounded-md bg-tertiary object-cover sm:aspect-[16/5.68]"
+          className="mb-8 aspect-video w-full select-none rounded-md bg-tertiary object-cover sm:aspect-[16/5.68]"
           alt={project.title}
           height={defaultThumbnailSize.height}
           width={defaultThumbnailSize.width}
@@ -161,6 +161,37 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
             })}
           </ul>
         </section>
+      </section>
+
+      <section className="mt-16">
+        <header className="mb-6 flex select-none items-center">
+          <h3 className="text-2xl font-semibold leading-tight text-primary">
+            {strings.developmentProcess}
+          </h3>
+        </header>
+
+        {project.process.map(phase => (
+          <div key={phase.id} className="mb-6 select-none">
+            <h4 className="mb-4 text-base text-secondary">{phase.title}</h4>
+
+            <div className="no-scrollbar relative flex items-center overflow-auto">
+              {phase.steps.map((step, stepIndex) => {
+                const isNextArrowAvailable = stepIndex < phase.steps.length - 1;
+
+                return (
+                  <div key={stepIndex} className="flex items-center">
+                    <span className="inline-block text-nowrap rounded-md bg-tertiary px-8 py-[10px] text-base text-primary">
+                      {step}
+                    </span>
+                    {isNextArrowAvailable && (
+                      <ArrowRight className="mx-3 text-2xl text-secondary" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </section>
     </main>
   );
