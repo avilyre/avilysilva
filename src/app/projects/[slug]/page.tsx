@@ -1,4 +1,5 @@
 import { BadgeInfo, Figma, Github, Globe } from "lucide-react";
+import Image from "next/image";
 
 import { projects } from "@/@data/projects";
 import { PageHeader } from "@/components/page-header";
@@ -11,6 +12,11 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
     params: { slug },
   } = props;
 
+  const defaultThumbnailSize = {
+    height: 285,
+    width: 800,
+  };
+
   const project = projects.filter(project => project.slug === slug).shift();
 
   if (!project) return;
@@ -18,7 +24,16 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
   return (
     <main>
       <header>
-        <div className="mb-8 aspect-video w-full rounded-md bg-tertiary sm:aspect-[16/5.68]"></div>
+        <Image
+          src={project.image.src}
+          className="mb-8 aspect-video w-full rounded-md bg-tertiary object-cover sm:aspect-[16/5.68]"
+          alt={project.title}
+          height={defaultThumbnailSize.height}
+          width={defaultThumbnailSize.width}
+          quality={100}
+          priority
+        />
+
         <div className="flex flex-col gap-8 sm:flex-row">
           <section className="max-w-[488px] flex-1">
             <PageHeader
