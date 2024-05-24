@@ -11,4 +11,5 @@ export const strings = {
   technologies: "principais tecnologias",
   wasNotIncludedMinorLibraries: "não estão inclusas bibliotecas menores",
   developmentProcess: "processo de desenvolvimento",
+  images: "imagens",
 };

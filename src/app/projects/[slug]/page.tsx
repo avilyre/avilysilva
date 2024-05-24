@@ -1,9 +1,11 @@
 import { ArrowRight, BadgeInfo, Figma, Github, Globe } from "lucide-react";
 import Image from "next/image";
+import { Suspense } from "react";
 
 import { projects } from "@/@data/projects";
 import { PageHeader } from "@/components/page-header";
 
+import { Gallery } from "./components/gallery";
 import { ProjectDetails } from "./interface";
 import { strings } from "./strings";
 
@@ -192,6 +194,18 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
             </div>
           </div>
         ))}
+      </section>
+
+      <section className="mt-16">
+        <header className="mb-6 flex select-none items-center">
+          <h3 className="text-2xl font-semibold leading-tight text-primary">
+            {strings.images}
+          </h3>
+        </header>
+
+        <Suspense fallback={"loading"}>
+          <Gallery images={project.images} />
+        </Suspense>
       </section>
     </main>
   );
