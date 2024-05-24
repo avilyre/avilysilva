@@ -212,7 +212,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
         <Gallery images={project.images} />
       </section>
 
-      <section className="mt-16">
+      <section className="mt-24">
         <header className="mb-6 flex select-none items-center">
           <h3 className="text-2xl font-semibold leading-tight text-primary">
             {strings.didYouLikeThisProject}
