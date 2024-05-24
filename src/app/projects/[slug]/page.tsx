@@ -1,6 +1,5 @@
 import { ArrowRight, BadgeInfo, Figma, Github, Globe } from "lucide-react";
 import Image from "next/image";
-import { Suspense } from "react";
 
 import { projects } from "@/@data/projects";
 import { PageHeader } from "@/components/page-header";
@@ -203,9 +202,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
           </h3>
         </header>
 
-        <Suspense fallback={"loading"}>
-          <Gallery images={project.images} />
-        </Suspense>
+        <Gallery images={project.images} />
       </section>
     </main>
   );
