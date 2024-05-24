@@ -12,7 +12,7 @@ import { projects } from "@/@data/projects";
 import { PageHeader } from "@/components/page-header";
 
 import { Gallery } from "./components/gallery";
-import { ProjectDetails } from "./interface";
+import type { ProjectDetails } from "./interface";
 import { strings } from "./strings";
 
 const ProjectDetails = (props: Readonly<ProjectDetails>) => {
