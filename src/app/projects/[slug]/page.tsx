@@ -1,4 +1,11 @@
-import { ArrowRight, BadgeInfo, Figma, Github, Globe } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeInfo,
+  Figma,
+  Github,
+  Globe,
+  MessageSquareText,
+} from "lucide-react";
 import Image from "next/image";
 
 import { projects } from "@/@data/projects";
@@ -203,6 +210,30 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
         </header>
 
         <Gallery images={project.images} />
+      </section>
+
+      <section className="mt-16">
+        <header className="mb-6 flex select-none items-center">
+          <h3 className="text-2xl font-semibold leading-tight text-primary">
+            {strings.didYouLikeThisProject}
+          </h3>
+        </header>
+        <div className="flex gap-4">
+          <MessageSquareText
+            strokeWidth={1}
+            className="h-[40px] w-[40px] font-light text-primary sm:h-[62px] sm:w-[62px]"
+          />
+          <p className="max-w-[264px] text-balance leading-relaxed text-primary">
+            {strings.letsTalk.firstPart}{" "}
+            <a
+              href="#footer"
+              className="underline transition-colors hover:text-secondary"
+            >
+              {strings.letsTalk.talk}
+            </a>{" "}
+            {strings.letsTalk.lastPart}
+          </p>
+        </div>
       </section>
     </main>
   );

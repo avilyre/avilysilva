@@ -5,8 +5,10 @@ import { strings } from "./strings";
 export const Footer = () => {
   return (
     <footer
+      id="footer"
+      tabIndex={0}
       data-testid="footer"
-      className="flex h-[88px] items-center justify-center gap-8 py-8 text-secondary"
+      className="mb-6 flex h-[88px] items-center justify-center gap-8 rounded-2xl py-8 text-secondary transition-[background-color] focus:bg-slate-900"
     >
       <a
         href={strings.linkedIn.href}

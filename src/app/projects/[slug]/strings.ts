@@ -12,4 +12,10 @@ export const strings = {
   wasNotIncludedMinorLibraries: "não estão inclusas bibliotecas menores",
   developmentProcess: "processo de desenvolvimento",
   images: "imagens",
+  didYouLikeThisProject: "gostou do projeto ?",
+  letsTalk: {
+    firstPart: "vamos",
+    talk: "conversar!",
+    lastPart: "eu te mostro mais detalhes sobre este projeto e outros!",
+  },
 };
