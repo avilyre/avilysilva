@@ -151,7 +151,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
 
             <div className="group relative ms-2 inline-block" tabIndex={0}>
               <BadgeInfo className="inline-block text-blue-500" />
-              <span className="after:content invisible absolute bottom-1/2 right-[calc(100%_+_12px)] w-[180px] translate-y-1/2 rounded-md bg-tertiary px-3 py-2 text-center text-xs text-secondary opacity-0 transition-opacity after:absolute after:bottom-1/2 after:left-[calc(100%_+_6px)] after:-translate-x-1/2 after:translate-y-1/2 after:border-[6px] after:border-[transparent_transparent_transparent_#1E293B] group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 md:bottom-auto md:left-1/2 md:top-[calc(100%_+_12px)] md:-translate-x-1/2 md:translate-y-0 md:after:bottom-full md:after:left-1/2 md:after:translate-y-0 md:after:border-[transparent_transparent_#1E293B_transparent]">
+              <span className="after:content invisible absolute bottom-1/2 right-[calc(100%_+_12px)] w-[180px] translate-y-1/2 rounded-md bg-tertiary px-3 py-2 text-center text-xs text-secondary opacity-0 transition-opacity after:absolute after:bottom-1/2 after:left-[calc(100%_+_5px)] after:-translate-x-1/2 after:translate-y-1/2 after:border-[6px] after:border-[transparent_transparent_transparent_#1E293B] group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 md:bottom-auto md:left-1/2 md:top-[calc(100%_+_12px)] md:-translate-x-1/2 md:translate-y-0 md:after:bottom-full md:after:left-1/2 md:after:translate-y-0 md:after:border-[transparent_transparent_#1E293B_transparent]">
                 {strings.wasNotIncludedMinorLibraries}
               </span>
             </div>
@@ -221,9 +221,9 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
         <div className="flex gap-4">
           <MessageSquareText
             strokeWidth={1}
-            className="h-[40px] w-[40px] font-light text-primary sm:h-[62px] sm:w-[62px]"
+            className="h-[40px] w-[40px] select-none font-light text-primary sm:h-[62px] sm:w-[62px]"
           />
-          <p className="max-w-[264px] text-balance leading-relaxed text-primary">
+          <p className="max-w-[264px] select-none text-balance leading-relaxed text-primary">
             {strings.letsTalk.firstPart}{" "}
             <a
               href="#footer"
