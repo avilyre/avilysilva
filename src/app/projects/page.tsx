@@ -12,10 +12,12 @@ export const metadata = generateSEO({
 });
 
 const Projects = () => {
+  const defaultPlaceQuantityWithoutProjects = 4;
   const defaultPlaceholderQuantity = 3;
-  const placeholdersToBeRendered = Math.round(
-    defaultPlaceholderQuantity / projects.length,
-  );
+  const placeholdersToBeRendered =
+    projects.length > 0
+      ? Math.round(defaultPlaceholderQuantity / projects.length)
+      : defaultPlaceQuantityWithoutProjects;
 
   return (
     <main>

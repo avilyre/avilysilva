@@ -5,10 +5,12 @@ import { projects } from "@/@data/projects";
 import ProjectsPage from "./page";
 import { strings } from "./strings";
 
+const defaultPlaceQuantityWithoutProjects = 4;
 const defaultPlaceholderQuantity = 3;
-const placeholdersToBeRendered = Math.round(
-  defaultPlaceholderQuantity / projects.length,
-);
+const placeholdersToBeRendered =
+  projects.length > 0
+    ? Math.round(defaultPlaceholderQuantity / projects.length)
+    : defaultPlaceQuantityWithoutProjects;
 
 describe("Projects Page Component", () => {
   beforeEach(() => {
@@ -28,8 +30,8 @@ describe("Projects Page Component", () => {
     expect(selectedTitleElement).toBeInTheDocument();
   });
 
-  it("Should be able to render the projects cards", async () => {
-    const projectsCards = await screen.findAllByTestId("card");
+  it("Should be able to render the projects cards", () => {
+    const projectsCards = screen.queryAllByTestId("card");
     expect(projectsCards).toHaveLength(projects.length);
   });
 
