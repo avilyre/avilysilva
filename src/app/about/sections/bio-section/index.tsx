@@ -58,6 +58,8 @@ export const BioSection = () => {
         width={bioDefaultImageSize.width}
         height={bioDefaultImageSize.height}
         alt={strings.image.alt}
+        quality={80}
+        priority
       />
       <div>
         <h3 className="mb-4 select-none text-2xl font-semibold leading-tight text-primary">
