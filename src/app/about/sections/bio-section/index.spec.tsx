@@ -1,5 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 
+import { fixAynscComponentRender } from "@/utility/fix-async-component-render";
+
 import { BioSection } from ".";
 import { strings } from "./strings";
 
@@ -7,9 +9,11 @@ const bioAAmountParagraphs = 3;
 const bioAmountLinks = 3;
 
 describe("Bio Section", () => {
-  beforeEach(() => {
-    render(<BioSection />);
+  beforeEach(async () => {
+    const BioSectionFixedRender = await fixAynscComponentRender(BioSection);
+    render(<BioSectionFixedRender />);
   });
+
   it("Should be able to render the image element", async () => {
     const bioSection = await screen.findByTestId("bio-section");
     const bioImageElement = await within(bioSection).findByRole("img", {
