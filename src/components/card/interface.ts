@@ -2,7 +2,7 @@ export interface CardProps {
   image: {
     src: string;
     alt: string;
-    placeholder?: string;
+    placeholderBlur?: string;
   };
   title: string;
   description: string;

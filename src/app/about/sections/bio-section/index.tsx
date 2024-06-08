@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { companies } from "@/@data/companies";
-import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder";
+import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
 
 import {
   companiesLinkMapElements,
