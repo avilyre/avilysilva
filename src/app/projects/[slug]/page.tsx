@@ -7,15 +7,17 @@ import {
   MessageSquareText,
 } from "lucide-react";
 import Image from "next/image";
+import * as uuid from "uuid";
 
-import { projects } from "@/@data/projects";
 import { PageHeader } from "@/components/page-header";
+import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
+import { getProject } from "@/services/projects.service";
 
 import { Gallery } from "./components/gallery";
 import type { ProjectDetails } from "./interface";
 import { strings } from "./strings";
 
-const ProjectDetails = (props: Readonly<ProjectDetails>) => {
+const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
   const {
     params: { slug },
   } = props;
@@ -25,19 +27,39 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
     width: 800,
   };
 
-  const project = projects.filter(project => project.slug === slug).shift();
+  const { data: project } = await getProject(slug);
 
-  if (!project) return;
+  const { base64: imagePlaceholder } = await getDynamicPlaceholder(
+    project.image.url as string,
+  );
+
+  const developmentProcess = project.process.map(({ phase }, phaseIndex) => {
+    const steps: string[] = phase?.split(", ") || [];
+
+    return {
+      id: uuid.v4(),
+      name: strings.phaseName[phaseIndex],
+      steps,
+    };
+  });
+
+  const galleryImages = project.images.map(({ content: image }) => ({
+    id: uuid.v4(),
+    src: image.url as string,
+    alt: image.alt as string,
+  }));
 
   return (
     <main>
       <header>
         <Image
-          src={project.image.src}
+          src={project.image.url as string}
           className="mb-8 aspect-video w-full select-none rounded-md bg-tertiary object-cover sm:aspect-[16/5.68]"
-          alt={project.title}
+          alt={project.title as string}
           height={defaultThumbnailSize.height}
           width={defaultThumbnailSize.width}
+          placeholder="blur"
+          blurDataURL={imagePlaceholder}
           quality={100}
           priority
         />
@@ -45,13 +67,13 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
         <div className="flex flex-col gap-8 sm:flex-row">
           <section className="max-w-[488px] flex-1">
             <PageHeader
-              title={project.title}
-              description={project.description}
+              title={project.title as string}
+              description={project.description as string}
             />
 
             <div className="flex items-center gap-8">
               <a
-                href={project.links?.figma}
+                href={project.figmaurl as string}
                 target="_blank"
                 title={strings.figma}
                 className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
@@ -59,7 +81,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
                 <Figma />
               </a>
               <a
-                href={project.links?.deploy}
+                href={project.deployurl as string}
                 target="_blank"
                 title={strings.deploy}
                 className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
@@ -67,7 +89,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
                 <Globe />
               </a>
               <a
-                href={project.links?.github}
+                href={project.githuburl as string}
                 target="_blank"
                 title={strings.github}
                 className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
@@ -83,7 +105,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
                 {strings.myRole}
               </span>
               <span className="text-base leading-tight text-primary">
-                {project.details.role}
+                {project.role as string}
               </span>
             </h5>
             <h5 className="select-none">
@@ -91,7 +113,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
                 {strings.developmentTime}
               </span>
               <span className="text-base leading-tight text-primary">
-                {project.details.developmentTime}
+                {project.development_time as string}
               </span>
             </h5>
             <h5 className="select-none">
@@ -99,7 +121,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
                 {strings.projectType}
               </span>
               <span className="text-base leading-tight text-primary">
-                {project.details.type}
+                {project.type as string}
               </span>
             </h5>
           </section>
@@ -137,7 +159,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
           <ul className="select-none list-disc ps-5">
             {project.highlights.map((highlight, index) => (
               <li key={index} className="leading-relaxed text-primary">
-                {highlight}
+                {highlight.name}
               </li>
             ))}
           </ul>
@@ -159,7 +181,9 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
 
           <ul className="select-none list-disc ps-5">
             {project.technologies.map((technologie, index) => {
-              const [name, type] = technologie.split(" - ");
+              if (!technologie.name) return null;
+
+              const [name, type] = technologie.name.split(" - ");
 
               return (
                 <li key={index} className="leading-relaxed text-primary">
@@ -178,28 +202,31 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
           </h3>
         </header>
 
-        {project.process.map(phase => (
-          <div key={phase.id} className="mb-6 select-none">
-            <h4 className="mb-4 text-base text-secondary">{phase.title}</h4>
+        {developmentProcess.map(phase => {
+          return (
+            <div key={phase.id} className="mb-6 select-none">
+              <h4 className="mb-4 text-base text-secondary">{phase.name}</h4>
 
-            <div className="no-scrollbar relative flex items-center overflow-auto">
-              {phase.steps.map((step, stepIndex) => {
-                const isNextArrowAvailable = stepIndex < phase.steps.length - 1;
+              <div className="no-scrollbar relative flex items-center overflow-auto">
+                {phase.steps.map((step, stepIndex) => {
+                  const isNextArrowAvailable =
+                    stepIndex < phase.steps.length - 1;
 
-                return (
-                  <div key={stepIndex} className="flex items-center">
-                    <span className="inline-block text-nowrap rounded-md bg-tertiary px-8 py-[10px] text-base text-primary">
-                      {step}
-                    </span>
-                    {isNextArrowAvailable && (
-                      <ArrowRight className="mx-3 text-2xl text-secondary" />
-                    )}
-                  </div>
-                );
-              })}
+                  return (
+                    <div key={stepIndex} className="flex items-center">
+                      <span className="inline-block text-nowrap rounded-md bg-tertiary px-8 py-[10px] text-base text-primary">
+                        {step}
+                      </span>
+                      {isNextArrowAvailable && (
+                        <ArrowRight className="mx-3 text-2xl text-secondary" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
       <section className="mt-16">
@@ -209,7 +236,7 @@ const ProjectDetails = (props: Readonly<ProjectDetails>) => {
           </h3>
         </header>
 
-        <Gallery images={project.images} />
+        <Gallery images={galleryImages} />
       </section>
 
       <section className="mt-24">

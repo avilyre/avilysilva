@@ -1,9 +1,10 @@
-import { projects } from "@/@data/projects";
-import { Card } from "@/components/card";
-import { CardPlaceholder } from "@/components/card-placeholder";
+import { Suspense } from "react";
+
 import { PageHeader } from "@/components/page-header";
 import { generateSEO } from "@/utility/generate-seo";
 
+import { ProjectsList } from "./sections/projects-list";
+import { ProjectsListSkeleton } from "./sections/projects-list/skeleton";
 import { strings } from "./strings";
 
 export const metadata = generateSEO({
@@ -12,11 +13,6 @@ export const metadata = generateSEO({
 });
 
 const Projects = () => {
-  const defaultPlaceholderQuantity = 3;
-  const placeholdersToBeRendered = Math.round(
-    defaultPlaceholderQuantity / projects.length,
-  );
-
   return (
     <main>
       <PageHeader
@@ -29,22 +25,9 @@ const Projects = () => {
           {strings.selected}
         </h2>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {projects.map(project => (
-            <Card
-              key={project.id}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              slug={project.slug}
-              typeURL="project"
-            />
-          ))}
-
-          {[...Array(placeholdersToBeRendered)].map((_, index) => (
-            <CardPlaceholder key={index} />
-          ))}
-        </div>
+        <Suspense fallback={<ProjectsListSkeleton />}>
+          <ProjectsList />
+        </Suspense>
       </section>
     </main>
   );

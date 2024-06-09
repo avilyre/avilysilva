@@ -1,10 +1,12 @@
+import { faker } from "@faker-js/faker";
+
 import { Project } from "@/@types/project";
 
 export const projectsMock: Project[] = [
   {
     id: 1,
     image: {
-      src: "/images/projects/devstore.png",
+      src: faker.image.url(),
       alt: "devstore",
     },
     title: "devstore",
@@ -17,9 +19,9 @@ export const projectsMock: Project[] = [
       type: "ecommerce",
     },
     links: {
-      github: "https://github.com/avilyre/devstore",
-      deploy: "<empty-url>",
-      figma: "<empty-url>",
+      github: faker.internet.url(),
+      figma: faker.internet.url(),
+      deploy: faker.internet.url(),
     },
     motivation:
       "lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
@@ -49,9 +51,21 @@ export const projectsMock: Project[] = [
       },
     ],
     images: [
-      "/images/projects/devstore.png",
-      "/images/projects/devstore.png",
-      "/images/projects/devstore.png",
+      {
+        id: "1",
+        src: faker.image.url(),
+        alt: faker.company.catchPhrase(),
+      },
+      {
+        id: "2",
+        src: faker.image.url(),
+        alt: faker.company.catchPhrase(),
+      },
+      {
+        id: "3",
+        src: faker.image.url(),
+        alt: faker.company.catchPhrase(),
+      },
     ],
   },
 ];

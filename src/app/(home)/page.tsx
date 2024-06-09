@@ -23,6 +23,7 @@ export default function Home() {
                 className="user-select-none absolute left-1 top-[95%] w-[45px] lg:w-[75px]"
                 width={scribbleImageSize.width}
                 height={scribbleImageSize.height}
+                priority
               />
             </h1>
             <h2 className="select-none text-right text-xl font-light text-primary lg:text-2xl">

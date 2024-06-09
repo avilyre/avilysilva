@@ -25,5 +25,9 @@ export interface Project {
     title: string;
     steps: string[];
   }[];
-  images: string[];
+  images: {
+    id: string;
+    src: string;
+    alt: string;
+  }[];
 }

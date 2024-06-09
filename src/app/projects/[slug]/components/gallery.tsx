@@ -6,7 +6,9 @@ import { useKeenSlider } from "keen-slider/react";
 import Image from "next/image";
 import { Fragment, useState } from "react";
 
-export const Gallery = (props: { images: string[] }) => {
+import { GalleryProps } from "./interface";
+
+export const Gallery = (props: GalleryProps) => {
   const { images } = props;
 
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -51,17 +53,16 @@ export const Gallery = (props: { images: string[] }) => {
         ref={keenSliderRef}
         className="keen-slider no-scrollbar flex w-full select-none"
       >
-        {images.map((image, index) => (
+        {images.map(image => (
           <Image
-            key={index}
-            src={image}
-            id={`gallery-image-${index}`}
-            alt={`Project image ${index + 1}`}
+            key={image.id}
+            src={image.src}
+            id={`gallery-image-${image.id}`}
+            alt={image.alt}
             className={`keen-slider__slide rounded-md`}
             tabIndex={0}
             width={defaultImageSize.width}
             height={defaultImageSize.height}
-            quality={100}
           />
         ))}
       </div>
