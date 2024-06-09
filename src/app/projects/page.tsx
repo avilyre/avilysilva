@@ -1,7 +1,8 @@
-import { projects } from "@/@data/projects";
 import { Card } from "@/components/card";
 import { CardPlaceholder } from "@/components/card-placeholder";
 import { PageHeader } from "@/components/page-header";
+import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
+import { getAllProjects } from "@/services/projects.service";
 import { generateSEO } from "@/utility/generate-seo";
 
 import { strings } from "./strings";
@@ -11,7 +12,9 @@ export const metadata = generateSEO({
   description: strings.description,
 });
 
-const Projects = () => {
+const Projects = async () => {
+  const projects = await getAllProjects();
+
   const defaultPlaceQuantityWithoutProjects = 4;
   const defaultPlaceholderQuantity = 3;
   const placeholdersToBeRendered =
@@ -31,17 +34,30 @@ const Projects = () => {
           {strings.selected}
         </h2>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {projects.map(project => (
-            <Card
-              key={project.id}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              slug={project.slug}
-              typeURL="project"
-            />
-          ))}
+        <div
+          data-testid="projects"
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2"
+        >
+          {projects.map(async ({ id, data: project }) => {
+            const imagePlaceholder = await getDynamicPlaceholder(
+              project.image.url as string,
+            );
+
+            return (
+              <Card
+                key={id}
+                title={project.title as string}
+                description={project.description as string}
+                image={{
+                  src: project.image.url as string,
+                  alt: project.image.alt as string,
+                  placeholderBlur: imagePlaceholder.base64,
+                }}
+                slug={project.slug as string}
+                typeURL="project"
+              />
+            );
+          })}
 
           {[...Array(placeholdersToBeRendered)].map((_, index) => (
             <CardPlaceholder key={index} />

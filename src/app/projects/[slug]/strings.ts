@@ -18,4 +18,5 @@ export const strings = {
     talk: "conversar!",
     lastPart: "eu te mostro mais detalhes sobre este projeto e outros!",
   },
+  phaseName: ["primeira fase", "segunda fase", "terceira fase", "quarta fase"],
 };

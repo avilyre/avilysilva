@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: "github.com",
         pathname: "/avilyre.png",
       },
+      {
+        protocol: "https",
+        hostname: "images.prismic.io",
+      },
     ],
   },
 };

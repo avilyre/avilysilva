@@ -1,0 +1,160 @@
+{
+  "format": "custom",
+  "id": "project",
+  "label": "Project",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Description",
+          "placeholder": ""
+        }
+      },
+      "slug": {
+        "type": "Text",
+        "config": {
+          "label": "Slug",
+          "placeholder": ""
+        }
+      },
+      "development_time": {
+        "type": "Text",
+        "config": {
+          "label": "Development Time",
+          "placeholder": ""
+        }
+      },
+      "role": {
+        "type": "Text",
+        "config": {
+          "label": "Role",
+          "placeholder": ""
+        }
+      },
+      "type": {
+        "type": "Text",
+        "config": {
+          "label": "Type",
+          "placeholder": ""
+        }
+      },
+      "githuburl": {
+        "type": "Text",
+        "config": {
+          "label": "githubUrl",
+          "placeholder": ""
+        }
+      },
+      "figmaurl": {
+        "type": "Text",
+        "config": {
+          "label": "figmaUrl",
+          "placeholder": ""
+        }
+      },
+      "deployurl": {
+        "type": "Text",
+        "config": {
+          "label": "deployUrl",
+          "placeholder": ""
+        }
+      },
+      "motivation": {
+        "type": "Text",
+        "config": {
+          "label": "motivation",
+          "placeholder": ""
+        }
+      },
+      "highlights": {
+        "type": "Group",
+        "config": {
+          "label": "Highlights",
+          "repeat": true,
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Name",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "technologies": {
+        "type": "Group",
+        "config": {
+          "label": "Technologies",
+          "repeat": true,
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Name",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "process": {
+        "type": "Group",
+        "config": {
+          "label": "Process",
+          "repeat": true,
+          "fields": {
+            "phase": {
+              "type": "Text",
+              "config": {
+                "label": "Phase",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "images": {
+        "type": "Group",
+        "config": {
+          "label": "Images",
+          "repeat": true,
+          "fields": {
+            "content": {
+              "type": "Image",
+              "config": {
+                "label": "content",
+                "constraint": {},
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
