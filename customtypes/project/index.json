@@ -6,6 +6,15 @@
   "status": true,
   "json": {
     "Main": {
+      "ishighlight": {
+        "type": "Boolean",
+        "config": {
+          "label": "isHighlight",
+          "default_value": false,
+          "placeholder_true": "true",
+          "placeholder_false": "false"
+        }
+      },
       "uid": {
         "config": {
           "label": "UID"

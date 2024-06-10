@@ -1,17 +1,19 @@
 import { prismicClient } from "@/app/api/prismic-client";
 
-export const getAllProjects = async () => {
-  const projectsGraphQuery = `
-    {
-      project {
-        uid
-        image
-        title
-        description
-        slug
-      }
+export const getAllProjects = async (graphQuery?: string) => {
+  const defaultGraphQuery = `
+  {
+    project {
+      uid
+      image
+      title
+      description
+      slug
     }
-  `;
+  }
+`;
+
+  const projectsGraphQuery = graphQuery !== "" ? graphQuery : defaultGraphQuery;
 
   const projects = await prismicClient.getAllByType("project", {
     graphQuery: projectsGraphQuery,
