@@ -6,20 +6,20 @@
   "status": true,
   "json": {
     "Main": {
-      "ishighlight": {
-        "type": "Boolean",
-        "config": {
-          "label": "isHighlight",
-          "default_value": false,
-          "placeholder_true": "true",
-          "placeholder_false": "false"
-        }
-      },
       "uid": {
         "config": {
           "label": "UID"
         },
         "type": "UID"
+      },
+      "isfeatured": {
+        "type": "Boolean",
+        "config": {
+          "label": "isFeatured",
+          "default_value": false,
+          "placeholder_true": "true",
+          "placeholder_false": "false"
+        }
       },
       "image": {
         "type": "Image",

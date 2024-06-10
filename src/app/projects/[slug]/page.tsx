@@ -11,23 +11,18 @@ import * as uuid from "uuid";
 
 import { PageHeader } from "@/components/page-header";
 import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
-import { getAllProjects, getProject } from "@/services/projects.service";
+import { getFeaturedProjects, getProject } from "@/services/projects.service";
 
 import { Gallery } from "./components/gallery";
 import type { ProjectDetails } from "./interface";
 import { strings } from "./strings";
 
 export const generateStaticParams = async () => {
-  const projects = await getAllProjects(`{
-    project {
-      slug
-      ishighlight
-    }
-  }`);
+  const projects = await getFeaturedProjects();
 
-  const staticProjectsPage = projects.map(({ data: project }) => {
-    if (project.ishighlight) return { slug: project.slug };
-  });
+  const staticProjectsPage = projects.map(({ data: project }) => ({
+    slug: project.slug,
+  }));
 
   return staticProjectsPage;
 };
