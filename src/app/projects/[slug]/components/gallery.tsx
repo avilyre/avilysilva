@@ -60,9 +60,9 @@ export const Gallery = (props: GalleryProps) => {
             id={`gallery-image-${image.id}`}
             alt={image.alt}
             className={`keen-slider__slide rounded-md`}
-            tabIndex={0}
             width={defaultImageSize.width}
             height={defaultImageSize.height}
+            quality={100}
           />
         ))}
       </div>
