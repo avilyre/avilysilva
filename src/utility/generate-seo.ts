@@ -5,7 +5,7 @@ export async function generateSEO(
   seoMetadata?: SeoMetadata,
 ): Promise<SeoMetadata> {
   const pageTitle = seoMetadata?.title
-    ? `${seoMetadata.title} | ${appConfig.title}`
+    ? `${seoMetadata.title} // ${appConfig.title}`
     : appConfig.title;
 
   const pageDescription = seoMetadata?.description
