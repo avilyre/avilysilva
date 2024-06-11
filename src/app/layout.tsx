@@ -1,5 +1,7 @@
 import "@/styles/globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Poppins } from "next/font/google";
 
 import { Footer } from "@/components/layouts/footer";
@@ -28,6 +30,8 @@ export default function RootLayout(props: Readonly<RootLayoutProps>) {
         <Navbar />
         <div className="pb-16 pt-8">{children}</div>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
