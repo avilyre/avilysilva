@@ -30,6 +30,7 @@ export const Card = (props: CardProps) => {
           height={defaultImageSize.height}
           placeholder={isPlaceholderEnabled ? "blur" : "empty"}
           blurDataURL={image.placeholderBlur}
+          quality={100}
           className="mb-6 aspect-video w-full select-none rounded-md transition-transform"
         />
         <h3 className="mb-4 font-semibold leading-tight text-primary">

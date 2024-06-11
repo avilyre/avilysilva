@@ -69,6 +69,18 @@ export interface ProjectDocumentDataImagesItem {
  */
 interface ProjectDocumentData {
   /**
+   * isFeatured field in *Project*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: project.isfeatured
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isfeatured: prismic.BooleanField;
+
+  /**
    * Image field in *Project*
    *
    * - **Field Type**: Image

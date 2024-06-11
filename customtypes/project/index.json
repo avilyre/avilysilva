@@ -12,6 +12,15 @@
         },
         "type": "UID"
       },
+      "isfeatured": {
+        "type": "Boolean",
+        "config": {
+          "label": "isFeatured",
+          "default_value": false,
+          "placeholder_true": "true",
+          "placeholder_false": "false"
+        }
+      },
       "image": {
         "type": "Image",
         "config": {
