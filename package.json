@@ -10,19 +10,35 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@plaiceholder/next": "^3.0.0",
+    "@prismicio/client": "^7.5.0",
+    "@prismicio/next": "^1.6.0",
+    "@prismicio/react": "^2.8.0",
+    "@t3-oss/env-nextjs": "^0.10.1",
+    "keen-slider": "^6.8.6",
+    "lucide-react": "^0.376.0",
     "next": "14.2.1",
+    "plaiceholder": "^3.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sharp": "^0.33.4",
+    "tailwind-merge": "^2.3.0",
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@slicemachine/adapter-next": "^0.3.41",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -38,6 +54,7 @@
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "slice-machine-ui": "^2.2.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^1.5.0"
