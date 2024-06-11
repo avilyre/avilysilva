@@ -33,7 +33,7 @@ export const Card = (props: CardProps) => {
           quality={100}
           className="mb-6 aspect-video w-full select-none rounded-md transition-transform"
         />
-        <h3 className="mb-4 font-semibold leading-tight text-primary">
+        <h3 className="mb-4 text-2xl font-semibold leading-tight text-primary">
           {title}
         </h3>
         <p className="text-balance leading-relaxed text-secondary group-hover:text-primary">

@@ -12,10 +12,24 @@ import * as uuid from "uuid";
 import { PageHeader } from "@/components/page-header";
 import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
 import { getFeaturedProjects, getProject } from "@/services/projects.service";
+import { generateSEO } from "@/utility/generate-seo";
 
 import { Gallery } from "./components/gallery";
 import type { ProjectDetails } from "./interface";
 import { strings } from "./strings";
+
+export const generateMetadata = async (props: Readonly<ProjectDetails>) => {
+  const {
+    params: { slug },
+  } = props;
+
+  const { data: project } = await getProject(slug);
+
+  return generateSEO({
+    title: project.title,
+    description: project.description,
+  });
+};
 
 export const generateStaticParams = async () => {
   const projects = await getFeaturedProjects();
