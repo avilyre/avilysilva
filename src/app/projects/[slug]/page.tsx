@@ -101,7 +101,7 @@ const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
                 target="_blank"
                 title={strings.deploy}
                 aria-disabled={project.deployurl === null}
-                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
+                className={`inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:text-secondary`}
               >
                 <Globe />
               </a>
@@ -110,7 +110,7 @@ const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
                 target="_blank"
                 title={strings.figma}
                 aria-disabled={project.figmaurl === null}
-                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
+                className={`inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:text-secondary`}
               >
                 <Figma />
               </a>
@@ -119,7 +119,7 @@ const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
                 target="_blank"
                 title={strings.github}
                 aria-disabled={project.githuburl === null}
-                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
+                className={`inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:hover:text-secondary`}
               >
                 <Github />
               </a>
