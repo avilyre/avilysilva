@@ -97,26 +97,29 @@ const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
 
             <div className="flex items-center gap-8">
               <a
-                href={project.figmaurl as string}
-                target="_blank"
-                title={strings.figma}
-                className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
-              >
-                <Figma />
-              </a>
-              <a
                 href={project.deployurl as string}
                 target="_blank"
                 title={strings.deploy}
-                className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
+                aria-disabled={project.deployurl === null}
+                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
               >
                 <Globe />
+              </a>
+              <a
+                href={project.figmaurl as string}
+                target="_blank"
+                title={strings.figma}
+                aria-disabled={project.figmaurl === null}
+                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
+              >
+                <Figma />
               </a>
               <a
                 href={project.githuburl as string}
                 target="_blank"
                 title={strings.github}
-                className="inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary"
+                aria-disabled={project.githuburl === null}
+                className={`[:not:aria-disabled]:hover:text-primary inline-block rounded-md bg-tertiary p-3 text-secondary transition-colors hover:text-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-40`}
               >
                 <Github />
               </a>
