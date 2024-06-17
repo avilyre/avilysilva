@@ -1,5 +1,6 @@
 pnpm run lint
 pnpm run test
+pnpm run cypress:test
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 notAllowedBranchMessage="Yout can't push to $branch branch. Please create a new branch instead."
