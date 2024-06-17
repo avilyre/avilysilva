@@ -74,7 +74,7 @@ const ProjectDetails = async (props: Readonly<ProjectDetails>) => {
   }));
 
   return (
-    <main>
+    <main data-testid="project-details">
       <header>
         <Image
           src={project.image.url as string}
