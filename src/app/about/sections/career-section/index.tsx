@@ -15,7 +15,7 @@ export const CareerSection = () => {
         <CareerCard
           company={getCompany(Companies.MERITUM)}
           role="software engineer"
-          startDate="2021-01-01"
+          startDate="2022-04-015"
         />
         <CareerCard
           company={getCompany(Companies.META)}
