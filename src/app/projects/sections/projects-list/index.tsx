@@ -6,10 +6,12 @@ import { getAllProjects } from "@/services/projects.service";
 export const ProjectsList = async () => {
   const projects = await getAllProjects();
 
+  if (projects === undefined) return;
+
   const defaultPlaceQuantityWithoutProjects = 4;
   const defaultPlaceholderQuantity = 3;
   const placeholdersToBeRendered =
-    projects.length > 0
+    projects?.length > 0
       ? Math.round(defaultPlaceholderQuantity / projects.length)
       : defaultPlaceQuantityWithoutProjects;
 
