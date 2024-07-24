@@ -20,6 +20,7 @@ export const NavItem = (props: NavItemProps) => {
     <Link
       href={href}
       className={`text-base underline-offset-8 transition-colors hover:text-primary ${linkClasses}`}
+      aria-current={pathname?.startsWith(href) ? "page" : undefined}
     >
       {children}
     </Link>
