@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { NavItem } from "@/components/NavItem";
+import { NavItem } from "@/components/nav-item";
 
 import { strings } from "./strings";
 
