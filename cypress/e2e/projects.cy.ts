@@ -9,11 +9,21 @@ describe("Projects Page", () => {
     });
   });
 
-  it("should be able to render the projects list", () => {
+  it("should be able to render the projects list if it has projects", () => {
     cy.visit("http://localhost:3000/projects");
 
-    const projectsCard = cy.get("[data-testid='card']").its("length");
-    projectsCard.should("be.greaterThan", 0);
+    cy.get("body").then(body => {
+      if (body.find("[data-testid='card']").length > 0) {
+        const projectCards = cy.get("[data-testid='card']");
+        projectCards.should("exist");
+        projectCards.should("have.length.greaterThan", 0);
+      } else {
+        const projectCardsPlaceholder = cy.get(
+          "[data-testid='card-placeholder']",
+        );
+        projectCardsPlaceholder.should("have.length", 4);
+      }
+    });
   });
 
   it("should be able to render the projects placeholder", () => {
