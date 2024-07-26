@@ -14,6 +14,7 @@ const config: Config = {
         tertiary: "#1E293B",
         highlight: "#F8FAFC",
         background: "#020617",
+        ocean: "#3B82F6"
       },
       backgroundImage: {
         "bg-card-placeholder": "url('/images/card-placeholder-logo.png')",
