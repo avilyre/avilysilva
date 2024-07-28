@@ -50,6 +50,31 @@
           "placeholder": ""
         }
       },
+      "tags": {
+        "type": "Group",
+        "config": {
+          "label": "Tags",
+          "repeat": true,
+          "fields": {
+            "text": {
+              "type": "Text",
+              "config": {
+                "label": "Text",
+                "placeholder": ""
+              }
+            },
+            "variant": {
+              "type": "Select",
+              "config": {
+                "label": "Variant",
+                "placeholder": "",
+                "options": ["ocean", "secondary"],
+                "default_value": "ocean"
+              }
+            }
+          }
+        }
+      },
       "development_time": {
         "type": "Text",
         "config": {
