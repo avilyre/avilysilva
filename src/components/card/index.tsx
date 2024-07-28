@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Tag } from "@/components/tag";
+
 import { CardProps } from "./interface";
 
 export const Card = (props: CardProps) => {
-  const { image, title, description, typeURL, slug } = props;
+  const { image, title, description, tags, typeURL, slug } = props;
 
   const isPlaceholderEnabled = !!image.placeholderBlur;
 
@@ -36,8 +38,11 @@ export const Card = (props: CardProps) => {
           quality={100}
           className="mb-6 aspect-video w-full select-none rounded-md transition-transform"
         />
-        <h3 className="mb-4 text-2xl font-semibold leading-tight text-primary">
+        <h3 className="mb-4 flex flex-col gap-4 text-2xl font-semibold leading-tight text-primary">
           {title}
+          <div className="flex flex-wrap gap-4">
+            {tags?.map((tag, index) => <Tag key={index} {...tag} />)}
+          </div>
         </h3>
         <p className="text-balance leading-relaxed text-secondary">
           {description}

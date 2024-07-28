@@ -5,6 +5,32 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 /**
+ * Item in *Project → Tags*
+ */
+export interface ProjectDocumentDataTagsItem {
+  /**
+   * Text field in *Project → Tags*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.tags[].text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  text: prismic.KeyTextField;
+
+  /**
+   * Variant field in *Project → Tags*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: ocean
+   * - **API ID Path**: project.tags[].variant
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  variant: prismic.SelectField<"ocean" | "secondary", "filled">;
+}
+
+/**
  * Item in *Project → Highlights*
  */
 export interface ProjectDocumentDataHighlightsItem {
@@ -123,6 +149,17 @@ interface ProjectDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   slug: prismic.KeyTextField;
+
+  /**
+   * Tags field in *Project*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.tags[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  tags: prismic.GroupField<Simplify<ProjectDocumentDataTagsItem>>;
 
   /**
    * Development Time field in *Project*
@@ -278,6 +315,7 @@ declare module "@prismicio/client" {
     export type {
       ProjectDocument,
       ProjectDocumentData,
+      ProjectDocumentDataTagsItem,
       ProjectDocumentDataHighlightsItem,
       ProjectDocumentDataTechnologiesItem,
       ProjectDocumentDataProcessItem,
