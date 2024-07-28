@@ -1,3 +1,4 @@
+import { Tag } from "@/@types/tag";
 import { Card } from "@/components/card";
 import { CardPlaceholder } from "@/components/card-placeholder";
 import { getDynamicPlaceholder } from "@/services/get-dynamic-placeholder.service";
@@ -30,6 +31,7 @@ export const ProjectsList = async () => {
             key={id}
             title={project.title as string}
             description={project.description as string}
+            tags={project.tags as Tag[]}
             image={{
               src: project.image.url as string,
               alt: project.image.alt as string,
