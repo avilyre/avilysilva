@@ -8,7 +8,7 @@ export interface CardProps {
   };
   title: string;
   description: string;
-  tags?: Tag[];
+  tags: Tag[];
   typeURL: "post" | "project";
   slug: string;
 }
