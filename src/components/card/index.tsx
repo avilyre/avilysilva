@@ -38,12 +38,16 @@ export const Card = (props: CardProps) => {
           quality={100}
           className="mb-6 aspect-video w-full select-none rounded-md transition-transform"
         />
-        <h3 className="mb-4 flex flex-col gap-4 text-2xl font-semibold leading-tight text-primary">
-          {title}
-          <div className="flex flex-wrap gap-4">
-            {tags?.map((tag, index) => <Tag key={index} {...tag} />)}
-          </div>
-        </h3>
+        <div className="mb-4 flex flex-col gap-4">
+          <h3 className="flex flex-col gap-4 text-2xl font-semibold leading-tight text-primary">
+            {title}
+          </h3>
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {tags?.map((tag, index) => <Tag key={index} {...tag} />)}
+            </div>
+          )}
+        </div>
         <p className="text-balance leading-relaxed text-secondary">
           {description}
         </p>
