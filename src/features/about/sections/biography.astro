@@ -1,0 +1,54 @@
+---
+import GreatImage from "@src/components/great-image/index.astro";
+
+const image = "https://github.com/avilyre.png";
+
+const defaultImageSize = {
+  width: 200,
+  height: 200,
+};
+---
+
+<section class="flex flex-col items-start gap-8 sm:flex-row">
+  <GreatImage
+    src={image}
+    width={defaultImageSize.width}
+    height={defaultImageSize.height}
+    alt="Rapaz jovem de óculos cinza"
+    customClass={{
+      common:
+        "h-[150px] w-[150px] rounded-lg object-cover grayscale sm:h-[240px] sm:w-[175px]",
+    }}
+  />
+
+  <div class="flex-1">
+    <h3
+      class="text-primary mb-4 text-xl leading-tight font-semibold lg:text-2xl"
+    >
+      olá, eu sou o avily
+    </h3>
+    <div class="flex flex-col gap-8">
+      <p
+        class="text-secondary text-sm leading-relaxed text-balance lg:text-base"
+      >
+        comecei minha carreira em 2020 como fullstack developer na gazeta do
+        povo. logo depois através da meta, tive a oportunidade de fazer parte do
+        time mobile do olist onde atuei junto de grandes profissionais da área.
+      </p>
+      <p
+        class="text-secondary text-sm leading-relaxed text-balance lg:text-base"
+      >
+        Hoje atuo totalmente como frontend engineer, criando interfaces
+        intuitivas, acessíveis e performáticas, também desde a descoberta da UI,
+        criação do layout até o código, usando as tecnologias mais modernas do
+        mercado.
+      </p>
+      <p
+        class="text-secondary text-sm leading-relaxed text-balance lg:text-base"
+      >
+        no momento moro em pernambuco no brasil com minha esposa, meu filho e a
+        pipoca.
+      </p>
+    </div>
+  </div>
+</section>

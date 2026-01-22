@@ -1,0 +1,23 @@
+---
+import PageWrapper from "@src/components/layouts/wrapper.astro";
+import PageHeader from "@src/components/layouts/header.astro";
+import BiographySection from "@src/features/about/sections/biography.astro";
+import CareerSection from "@src/features/about/sections/career.astro";
+import SoftSkillsSection from "@src/features/about/sections/soft-skills.astro";
+import { PAGE_INFO } from "@src/constants/page-info";
+---
+
+<PageWrapper title={PAGE_INFO.ABOUT.TITLE} description={PAGE_INFO.ABOUT.DESCRIPTION}>
+  <main class="flex flex-col gap-14">
+    <PageHeader title={PAGE_INFO.ABOUT.TITLE} description={PAGE_INFO.ABOUT.DESCRIPTION} />
+
+    <BiographySection />
+
+    <div class="flex flex-col justify-between gap-16 sm:flex-row sm:gap-8">
+      <CareerSection />
+      <div class="max-w-[384px]">
+        <SoftSkillsSection />
+      </div>
+    </div>
+  </main>
+</PageWrapper>
