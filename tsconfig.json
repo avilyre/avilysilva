@@ -8,6 +8,7 @@
     "dist"
   ],
   "compilerOptions": {
+    "module": "es2020",
     "baseUrl": ".",
     "paths": {
       "@src/*": [
@@ -22,6 +23,7 @@
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "allowJs": true
+    "allowJs": true,
+    "noImplicitAny": true
   }
 }
