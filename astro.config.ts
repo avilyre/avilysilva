@@ -11,7 +11,6 @@ export default defineConfig({
   site: "https://avilysilva.com",
   integrations: [sitemap()],
   adapter: vercel(),
-
   vite: {
     plugins: [tailwindcss()]
   }
