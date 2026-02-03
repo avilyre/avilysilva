@@ -4,7 +4,7 @@
 
 building and sharing experiences about creating modern interfaces
 
-[![Astro](https://img.shields.io/badge/Astro-5.16-black?logo=astro)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-5.17-black?logo=astro)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Native-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com/)<br/>
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
