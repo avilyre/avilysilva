@@ -4,14 +4,14 @@ import { readingTime } from "@src/features/blog/utility";
 
 type Props = {
   title: string;
-  date: string;
+  date: Date;
   slug: string;
   body: string | undefined;
 };
 
 const post = Astro.props;
 
-const date = new Date(post.date);
+const date = post.date;
 const readingTimeInMinutes = readingTime(post.body || "");
 
 const hoverClasses =
@@ -30,7 +30,7 @@ const hoverClasses =
             datetime={date.toISOString()}
             class="text-secondary text-sm leading-tight lg:text-base"
           >
-            {`${date.getDate()} de ${dateTimeFormat(new Date(date))}`}
+            {`${date.getDate()} de ${dateTimeFormat(date)}`}
           </time>
         )
       }
