@@ -1,92 +1,82 @@
-**Load this when:** You need design tokens, UI composition rules, typography, or motion guidance before changing visuals.
+# Design Reference
+
+This file captures visual system rules and UI behavior conventions.
 
 ## Visual Identity
 
-- Style direction: dark, high-contrast, minimalist portfolio/blog.
-- Tone: technical, clean, content-first.
-- Accent usage: restrained highlights over slate-based surfaces.
+- Theme style: dark interface with high-contrast text.
+- Brand font: `Poppins` (weights 400/500/600), loaded via `fonts.css`.
+- Core tone: minimal, content-first, rounded surfaces, soft blur/glow accents.
 
-## Token System
+## Design Tokens (`src/styles/brand.css`)
 
-Defined in `src/styles/brand.css` using Tailwind v4 `@theme`.
+- `--color-background: #020617`
+- `--color-accent: #f8fafc`
+- `--color-foreground: #94a3b8`
+- `--color-surface: #1e293b`
+- `--color-code: #1e293b`
+- Semantic aliases:
+  - `--color-primary` -> accent
+  - `--color-secondary` -> foreground
+  - `--color-tertiary` -> surface
 
-Core tokens:
+## Typography Rules
 
-- `--color-background`: page background
-- `--color-surface`: card/surface base
-- `--color-foreground`: secondary text
-- `--color-accent`: primary emphasis text
-- `--color-code`: code block surface
-- `--color-ocean`: link/highlight accent
+- Body baseline: `font-sans`, antialiased, base size from global styles.
+- Page titles commonly use semibold with responsive scaling (`text-3xl`/`text-4xl`/`text-8xl` where appropriate).
+- Supporting text uses `text-secondary` and relaxed line height.
+- Blog/article text uses `content.css` typographic rules (paragraph spacing, heading rhythm, list spacing).
 
-Semantic mappings:
+## Layout And Spacing
 
-- `--color-primary`, `--color-secondary`, `--color-tertiary`, `--color-highlight`
+- Global page shell max width: `800px` with horizontal padding on small screens.
+- Vertical rhythm is enforced with consistent `gap-*` utility classes in page sections.
+- Rounded corners are used for cards/images/content blocks (`rounded-md`, `rounded-xl`, `rounded-2xl`).
+- Header/footer/nav remain lightweight and centered around content readability.
 
-Use semantic tokens first; avoid hardcoded one-off colors in components.
+## Component-Level Styling Patterns
 
-## Typography
+- Navigation:
+  - Active link uses pseudo-element background highlight.
+  - Inactive links rely on subtle color transition on hover.
+- Buttons:
+  - Shared disabled treatment through global `button:disabled`.
+  - Summary button styling changes for retry/error state.
+- Images:
+  - `GreatImage` composes blur placeholder + final optimized image.
+  - Grayscale/rounded treatments are applied via passed class sets.
 
-- Family: `Poppins` via `@font-face` in `src/styles/fonts.css`.
-- Weights in use: 400, 500, 600.
-- Body baseline: `text-base` (smaller on narrow screens by utility classes).
-- Hierarchy:
-  - `h1`: bold, large display for page titles.
-  - `h2/h3`: section and content hierarchy.
-  - Body text: `text-secondary` with relaxed line-height.
+## Motion And Effects
 
-## Layout System
+- Motion tokens in `animations.css`:
+  - `enter-down` (reveal)
+  - `exit-down` (dismiss)
+- AI summary block effect:
+  - `ai-neon-effect` pseudo-element with animated radial gradients.
+  - Hover state increases glow intensity.
+- Scripted animation sequencing relies on waiting for named `animationend`.
 
-- Global container max width: `800px` (`PageWrapper` body classes).
-- Horizontal padding: `px-6` on small screens, `lg:px-0` on desktop.
-- Vertical rhythm uses flex gaps, usually in 8-16 spacing scale.
-- Background atmosphere: blurred radial shape in wrapper.
+## Markdown Content Styling
 
-## Shared Layout Components
+- Scope: all post content under `.content` container.
+- Code blocks:
+  - Styled with translucent code surface and rounded edges.
+  - Language-specific color mapping for JSX, console, and CSS.
+- Inline code:
+  - Secondary text color with code-surface background and compact padding.
+- Text elements:
+  - Headings (`h2`) use strong weight and controlled spacing.
+  - Paragraph and list spacing follows strict adjacent-element rhythm.
 
-- `wrapper.astro`: root shell + global structure.
-- `navbar.astro`: lightweight top nav with active state highlighting.
-- `footer.astro`: social links and final navigation anchor.
-- `header.astro`: reusable title/description block.
+## Responsiveness
 
-Keep route pages composing these components rather than duplicating layout code.
+- Breakpoint strategy primarily uses Tailwind defaults (`sm`, `md`, `lg`).
+- Type and layout scale up at `lg` for improved readability.
+- Blog meta panels and section grouping shift from stacked to row layouts on larger screens.
 
-## Motion and Effects
+## Accessibility And UX Notes
 
-Animations in `src/styles/animations.css`:
-
-- `enter-down`: reveal content with upward blur-to-sharp motion.
-- `exit-down`: hide content with downward blur/fade.
-- `ai-neon-anim`: decorative glow for AI summary button/elements.
-
-Motion usage principles in this codebase:
-
-1. Use animation classes as state markers.
-2. Synchronize UI transitions with `waitForAnimation`.
-3. Reserve animated glow for AI affordance, not all controls.
-
-## Content Rendering Design
-
-Blog content style rules live in `src/styles/content.css`:
-
-- Rich typography for headings/paragraphs/lists.
-- Styled inline `code` and block `pre`.
-- Language-specific syntax token coloring via `hljs` classes.
-- Consistent spacing around headings, paragraphs, lists, and code blocks.
-
-When changing blog readability, prefer editing `content.css` centrally.
-
-## Responsive Behavior
-
-- Mobile-first classes across all components.
-- About page sections shift from stacked to multi-column at `sm` breakpoints.
-- Typography and controls increase sizing at `lg`.
-- Navbar links use horizontal overflow handling on smaller viewports.
-
-## Accessibility and Interaction Notes
-
-- Controls include descriptive `title` and labels in interactive elements.
-- Active nav state is visually emphasized with contrast background shape.
-- Summary flow includes disabled state to prevent duplicate requests.
-
-When adding interactions, keep clear focus/hover/disabled affordances aligned with existing token usage.
+- Contrast is maintained through tokenized foreground/background pairs.
+- Focus/interaction affordances are mainly color and opacity transitions.
+- Skeleton/loading states are used during async summary generation.
+- Link and text-balance utilities support scanning and readability in long-form content.

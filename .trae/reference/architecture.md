@@ -1,111 +1,83 @@
-**Load this when:** You need a full system map, domain boundaries, and runtime data flow before implementing features.
+# Architecture
+
+This file describes the current runtime structure and data flow of the site.
 
 ## System Overview
 
-This project is a personal portfolio and technical blog built with Astro.
-It combines static content delivery with one SSR API endpoint for AI-generated post summaries.
+- Platform: Astro static-first site with one server-rendered API endpoint.
+- Primary domains:
+  - Home/About presentation pages.
+  - Blog content listing and article rendering.
+  - AI summary generation for article bodies with Redis-backed caching.
 
-## Architecture by Domain
+## Route Map
 
-### 1. Routing Domain (`src/pages`)
+- `/` -> landing page (`src/pages/index.astro`).
+- `/about` -> profile and career sections (`src/pages/about.astro` + `src/features/about/*`).
+- `/blog` -> blog list (`src/pages/blog/index.astro` + `content-list` component).
+- `/blog/[...slug]` -> article page and interactive AI summary UI.
+- `/api/summarize` -> POST API for AI summarization and cache interaction.
+- `/rss.xml` -> RSS feed generated from content collection.
+- `/robots.txt` -> dynamic robots response.
 
-- Static routes:
-  - `index.astro` (home)
-  - `about.astro` (profile/career)
-  - `blog/index.astro` (post listing)
-- Dynamic content route:
-  - `blog/[...slug].astro` (individual post pages via Content Collections)
-- SSR API route:
-  - `api/summarize.ts`
-- Machine-readable routes:
-  - `rss.xml.ts`
-  - `robots.txt.ts`
+## Layered Boundaries
 
-### 2. Shared UI Domain (`src/components`)
+- **Pages layer (`src/pages`)**
+  - Defines route entrypoints and route-level data fetching (`getCollection`, `getStaticPaths`).
+  - Composes shared layout and feature components.
+- **Feature layer (`src/features`)**
+  - Encapsulates domain-specific UI blocks for `about` and `blog`.
+  - Holds small feature-level helpers (`readingTime`).
+- **Shared component layer (`src/components`)**
+  - Layout shell (`wrapper`, `metadata`, `navbar`, `footer`, `header`).
+  - Shared media primitive (`great-image`).
+- **Integration layer (`src/lib`)**
+  - Third-party wrappers: Redis, markdown/highlight parser, image placeholder generation.
+- **Configuration/content layer**
+  - Content schema (`src/content.config.ts`).
+  - Static constants in `src/constants`.
 
-- Layout composition:
-  - `layouts/wrapper.astro`: document shell, global styles, navbar/footer
-  - `layouts/metadata.astro`: SEO, canonical, Open Graph, Twitter tags
-  - `layouts/header.astro`, `navbar.astro`, `footer.astro`
-- Image abstraction:
-  - `great-image/index.astro`
-  - `great-image/utility/fetch-great-image.ts`
+## Data Flow: Blog Rendering
 
-### 3. Feature Domain (`src/features`)
+1. Markdown files in `src/content/posts` are validated by collection schema.
+2. Blog list route fetches collection and sorts by publish date.
+3. Slug route resolves static paths from post IDs.
+4. Post markdown is rendered through Astro `render(post)` into component content.
+5. Shared wrappers add metadata, navigation, and footer around route content.
 
-- `features/blog`:
-  - Listing and item components
-  - Sharing UI
-  - AI summary trigger
-  - Reading-time utility
-- `features/about`:
-  - Biography section
-  - Career timeline
-  - Soft skills section
-  - Reusable cards
+## Data Flow: AI Summary
 
-### 4. Content Domain (`src/content`)
+1. User clicks summary button in blog post client script.
+2. Browser sends POST request to `/api/summarize` with full post body.
+3. API validates payload and computes deterministic hash (`SHA-256`).
+4. API checks Redis for key `summary:with-astro:<hash>`.
+5. On cache miss, Gemini is called and response text is transformed to HTML.
+6. HTML is cached in Redis with long TTL and returned to client.
+7. Client injects summary HTML into the summary container.
 
-- Markdown posts in `src/content/posts`.
-- Schema and loader in `src/content.config.ts`.
-- Astro Content Collections provide compile-time validation + typed data.
+## External Integrations
 
-### 5. Infrastructure Domain (`src/lib`)
+- Google GenAI (`@google/genai`) for summarization.
+- Upstash Redis (`@upstash/redis`) for summary cache.
+- Highlight.js via `marked-highlight` for markdown/code rendering.
+- Plaiceholder for remote image blur placeholders.
+- Astro integrations: sitemap generation + Vercel adapter.
 
-- `redis.ts`: Upstash Redis client bootstrap.
-- `marked-with-highlight.ts`: Markdown -> HTML parser with `highlight.js`.
-- `plaiceholder.ts`: placeholder generation from fetched image buffer.
+## Build And Runtime Characteristics
 
-### 6. Utility Domain (`src/utility`)
+- Blog pages and main routes are generated from content collection.
+- API route is runtime-executed (not prerendered).
+- RSS and robots endpoints are generated through Astro route handlers.
 
-- `generate-hash.ts`: deterministic content hash for cache keys.
-- `date-time-format.ts`: localized date formatter.
-- `wait-for-animation.ts`: animation completion promise helper.
+## Key Risks And Hotspots
 
-### 7. Configuration Domain (root)
+- Summary caching format mismatch risk (cache hit parse behavior vs stored value).
+- Client-side summary interaction is DOM-dependent; markup and script are tightly coupled.
+- Metadata correctness depends on consistent `site` and env URL configuration.
 
-- `astro.config.ts`: integrations, adapter, runtime, site URL.
-- `tsconfig.json`: strict config + import aliases.
-- `eslint.config.js`, `.prettierrc.mjs`: code quality policy.
-- `.husky/pre-commit`: quality gate workflow.
+## Extension Guidelines
 
-## Runtime Flows
-
-### Static Navigation Flow
-
-1. Route resolves to Astro page.
-2. Page is wrapped by `PageWrapper`.
-3. `Metadata` computes canonical and social metadata.
-4. Layout renders navbar/content/footer.
-
-### Blog Post Render Flow
-
-1. `getStaticPaths()` reads all collection entries.
-2. Astro generates one page per post slug.
-3. `render(post)` transforms Markdown for output.
-4. Post UI renders hero image, metadata, share controls, and content.
-
-### AI Summary Flow
-
-1. User clicks `SummaryAIButton`.
-2. Custom element script posts raw article content to `/api/summarize`.
-3. API hashes input and checks Redis.
-4. If cache hit, returns cached summary HTML.
-5. If miss, Gemini generates Markdown summary.
-6. Markdown is parsed to HTML, saved in Redis, then returned.
-7. Client injects summary HTML in the summary container.
-
-## Integration Boundaries
-
-- Google Gemini: only used in `src/pages/api/summarize.ts`.
-- Upstash Redis: only used through `src/lib/redis.ts` and summarize API.
-- Image placeholders: wrapped by `src/lib/plaiceholder.ts` and used via `GreatImage`.
-
-Keep third-party dependencies behind these wrappers/routes when possible.
-
-## Key Couplings and Risks
-
-- Blog page client script and API response format are tightly coupled (`data.summary` HTML).
-- Long cache TTL can preserve old summary output quality.
-- Blog listing and RSS draft handling are not aligned today.
-- Remote image placeholder generation depends on network availability for external image URLs.
+- New feature domains should follow `src/features/<domain>/{components,sections,utility}`.
+- Shared logic with external dependencies should be wrapped in `src/lib`.
+- Route handlers should stay thin and delegate reusable behavior to utilities/libs.
+- Content model changes must be synchronized between `content.config.ts`, pages, and RSS.

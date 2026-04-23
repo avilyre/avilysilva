@@ -1,114 +1,82 @@
-**Load this when:** You need coding conventions, folder rules, or implementation patterns before editing the project.
+# Code Patterns
 
-## Project Style Baseline
+This file documents implementation conventions used in this repository.
 
-- Stack: Astro 5, TypeScript, TailwindCSS 4, Markdown Content Collections.
-- Language: UI and content are primarily in Brazilian Portuguese (`pt-BR`).
-- Formatting: Prettier + ESLint; semicolons and double quotes are enforced.
-- File naming: kebab-case across Astro and TypeScript files.
+## Stack And Baseline
 
-## Domain-Oriented Folder Structure
+- Framework: Astro 5 with TypeScript strict config (`astro/tsconfigs/strict`).
+- Styling: Tailwind CSS v4 (`@tailwindcss/vite`) plus local CSS files.
+- Content source: Astro Content Collections (`src/content.config.ts`) with Markdown posts.
+- Runtime integration: Vercel adapter in Node runtime mode.
+- Linting/formatting: ESLint + Prettier with Astro plugins.
 
-- `src/pages`: route entrypoints (`.astro`, `.ts` for API and feeds).
-- `src/features`: domain modules grouped by feature (`about`, `blog`).
-- `src/components`: shared UI building blocks (`layouts`, `great-image`).
-- `src/lib`: external integration helpers and shared infrastructure wrappers.
-- `src/utility`: framework-agnostic helpers.
-- `src/constants`: static app metadata and lists.
-- `src/content/posts`: Markdown blog posts.
-- `src/styles`: design tokens, globals, content rendering styles, animations.
+## Folder And Domain Conventions
 
-## Imports and Aliases
+- `src/pages`: route entry points only (page assembly, route-specific wiring).
+- `src/features/<domain>`: domain UI and logic grouped by feature (`about`, `blog`).
+- `src/components/layouts`: shared shell/layout primitives (`wrapper`, `metadata`, etc.).
+- `src/components/great-image`: reusable image abstraction with blur placeholder support.
+- `src/constants`: static content and metadata used by pages/features.
+- `src/lib`: third-party wrappers/integrations (`redis`, markdown highlighter, plaiceholder).
+- `src/utility`: generic helper functions (hashing, date formatting, animation waiters).
+- `src/styles`: global/theme/content styling layers.
+- `src/content/posts`: Markdown posts loaded through collection schema.
 
-Use aliases from `tsconfig.json`:
+## Import And Typing Patterns
 
-- `@src/*`
-- `@layouts/*`
-- `@components/*`
+- Prefer alias imports with `@src/*` for cross-domain references.
+- Use explicit local `type Props` in Astro components and destructure from `Astro.props`.
+- Keep constants immutable with `as const` when shape should remain literal.
+- Define shared object shapes with exported TS `type` (example: `Company`).
 
-Prefer alias imports over deep relative imports for app code.
+## Astro Component Patterns
 
-## Astro Page Pattern
+- Frontmatter handles data preparation; template handles display only.
+- Reusable sections/components receive typed props rather than fetching global state.
+- Named slots are used for optional extension points (example: header icon slot).
+- Shared page shell is centralized in `PageWrapper` (`wrapper.astro`) for consistency.
 
-Typical page composition:
+## Content And Blog Patterns
 
-1. Import `PageWrapper` from `src/components/layouts/wrapper.astro`.
-2. Pull static metadata from `PAGE_INFO` when available.
-3. Render feature sections/components.
-4. Keep route-level data loading in frontmatter.
+- Posts are discovered via `glob()` loader from `src/content/posts/**/*.md`.
+- Collection schema enforces fields: `title`, `cover`, `summary`, `date`, `isDraft`.
+- Blog listing sorts by descending date in the feature component.
+- Slug page uses `getStaticPaths()` over collection items and renders markdown via `render()`.
+- Reading time is computed from post body text using a utility function.
 
-Example routes in this style:
+## API And Async Patterns
 
-- `src/pages/about.astro`
-- `src/pages/blog/index.astro`
+- API routes use `APIRoute` typing and explicit HTTP status/JSON responses.
+- Summarization endpoint validates input early and returns `400` for invalid payloads.
+- External service calls are wrapped in `try/catch` with structured error responses.
+- Cache keys are deterministic (`SHA-256` hash of content) before remote AI invocation.
+- Markdown returned from AI is transformed to highlighted HTML before responding.
 
-## Dynamic Content Route Pattern
+## Image And Media Patterns
 
-Dynamic blog page `src/pages/blog/[...slug].astro` uses:
+- `GreatImage` encapsulates placeholder + final image rendering concerns.
+- `fetchGreatImage()` toggles between remote blur generation and direct source usage.
+- `plaiceholder` integration returns `{ placeholder, image }` for flexible UI composition.
 
-1. `getStaticPaths()` + `getCollection("posts")`.
-2. `render(post)` from `astro:content`.
-3. Domain components (`BackToPrev`, `ShareBar`, `SummaryAIButton`).
-4. Local client script for custom element behavior.
+## Styling Patterns
 
-Keep rendering and content hydration logic close to this page when extending post behavior.
+- Global style entrypoint imports `tailwindcss` and local theme files.
+- Theme tokens are declared in `brand.css` using `@theme` custom properties.
+- Reusable visual effects use semantic utility classes (`ai-neon-effect`, animation tokens).
+- Content typography/highlight styles are isolated in `content.css`.
+- Responsive behavior primarily uses Tailwind utility breakpoints (`sm`, `lg`, `md`).
 
-## API Route Pattern
+## Client-Side Script Patterns
 
-`src/pages/api/summarize.ts` defines:
+- Small interactive behaviors stay local in Astro `<script>` blocks.
+- Custom elements are used for encapsulated interactions (`summary-content-ai`).
+- DOM element lookups are validated before use; handlers exit early if missing.
+- Animation sequencing uses promise-based helper (`waitForAnimation`).
 
-- `export const prerender = false` (must stay SSR).
-- Input validation (`content` required).
-- Deterministic cache key with SHA-256 hash.
-- Cache-first read in Redis.
-- External AI call fallback.
-- Consistent JSON responses and status codes.
+## Quick Authoring Checklist
 
-When adding APIs, follow the same order: validate -> cache -> external call -> transform -> cache -> respond.
-
-## Content Collection Pattern
-
-`src/content.config.ts` defines collection schema with `zod`:
-
-- `title: string`
-- `cover: string`
-- `summary: string`
-- `date: coerce.date()`
-- `isDraft: boolean` with default `false`
-
-All posts must keep this frontmatter contract.
-
-## Styling Pattern
-
-- TailwindCSS v4 is configured via CSS `@theme` in `src/styles/brand.css`.
-- Global app styles are in `src/styles/globals.css`.
-- Blog rendered Markdown styles are in `src/styles/content.css`.
-- Reusable animation tokens and keyframes are in `src/styles/animations.css`.
-
-Prefer tokenized colors (`text-primary`, `bg-tertiary`) over raw color classes.
-
-## Client-Side Interaction Pattern
-
-Interactive behavior is minimal and colocated:
-
-- Navbar active link state uses a small inline script in `navbar.astro`.
-- Blog summary uses a custom element (`summary-content-ai`) in `[...slug].astro`.
-
-When adding client logic:
-
-1. Target explicit element IDs/classes.
-2. Fail fast when elements are missing.
-3. Use CSS classes for state transitions instead of manual inline styles.
-
-## Utility Pattern
-
-- Keep pure helpers in `src/utility`.
-- Keep integration wrappers in `src/lib`.
-- Avoid mixing framework APIs into generic helpers unless strictly necessary.
-
-Current examples:
-
-- `generate-hash.ts`: deterministic SHA-256.
-- `date-time-format.ts`: locale + timezone safe date formatting.
-- `wait-for-animation.ts`: resolves animation completion promises.
-
+- Place new logic in the right domain folder before coding.
+- Add/update TS types for props and shared constants.
+- Reuse existing layout and helper abstractions instead of duplicating behavior.
+- Keep route files focused on composition; move reusable blocks into features/components.
+- Ensure markdown/content-facing UI still respects `content.css` conventions.

@@ -1,77 +1,59 @@
-**Load this when:** You need critical constraints, deployment notes, environment setup, or high-impact caveats before changing code.
+# Important Notes
 
-## Runtime and Deployment Constraints
+This file captures high-impact constraints and operational caveats.
 
-- Astro adapter: `@astrojs/vercel`.
-- Runtime mode: Node.js (`astro.config.ts` exports `{ runtime: "nodejs" }`).
-- Site URL: `https://avilysilva.com`.
-- Most pages are statically generated; API route is server-rendered only.
+## Environment Requirements
 
-## Mandatory Environment Variables
+- Required versions: Node.js 22+, pnpm package manager.
+- Required env vars from `.env.example`:
+  - `GEMINI_API_KEY`
+  - `REDIS_URL`
+  - `REDIS_TOKEN`
+- Missing `GEMINI_API_KEY` throws during module initialization of `src/pages/api/summarize.ts`.
 
-Required for `/api/summarize`:
+## Runtime And Deployment
 
-- `GEMINI_API_KEY`
-- `REDIS_URL`
-- `REDIS_TOKEN`
+- Astro config uses Vercel adapter with `runtime: "nodejs"`.
+- `site` is fixed to `https://avilysilva.com`; canonical/OG URLs depend on it.
+- API route `src/pages/api/summarize.ts` sets `export const prerender = false`.
 
-If `GEMINI_API_KEY` is missing, the module throws during load.
+## API Summarization Caveats
 
-## API SSR Constraint
+- Endpoint expects JSON body with `content`; empty content returns `400`.
+- Gemini model in use: `gemini-2.5-flash`.
+- Prompt requests Brazilian Portuguese markdown output and list constraints.
+- Cache strategy targets long-term reuse (`5 years` TTL).
+- Current cache flow stores HTML (`summaryHtml`) but reads/parses as markdown on hit; this can cause double-processing inconsistencies.
 
-`src/pages/api/summarize.ts` must keep:
+## Caching And Redis Notes
 
-```ts
-export const prerender = false;
-```
+- Redis client is initialized from environment via `@upstash/redis`.
+- Cache key format: `summary:with-astro:<sha256>`.
+- Any future cache schema changes must version key prefixes to avoid stale format collisions.
 
-Removing this breaks runtime API behavior in production.
+## Content And Publishing
 
-## Caching Behavior
+- Posts are markdown files in `src/content/posts`.
+- Content collection supports `isDraft` with default `false`.
+- RSS route filters draft posts (`!post.data.isDraft`).
+- Blog route static paths currently map all posts; if draft hiding is needed in pages, filter at `getStaticPaths()`.
 
-- Redis key prefix: `summary:with-astro:`.
-- Cache key body: SHA-256 hash of input content.
-- Current TTL: 5 years (`60 * 60 * 24 * 365 * 5`).
+## Styling And UX Constraints
 
-This is very long-lived; updates to summary prompt quality will not affect cached entries until expiration or manual invalidation.
+- Theme tokens are centralized in `src/styles/brand.css`; avoid hardcoding repeated color values.
+- Global typography and UI baseline live in `src/styles/globals.css`.
+- Rich markdown display styles and code highlighting colors live in `src/styles/content.css`.
+- Animation names (`enter-down`, `exit-down`) are coupled with `waitForAnimation()` usage in blog summary UI.
 
-## Content Lifecycle Notes
+## SEO And Metadata Notes
 
-- Source of truth for posts: `src/content/posts/*.md`.
-- Collection schema enforces frontmatter shape via `src/content.config.ts`.
-- Blog list currently sorts posts by date but does not filter drafts.
-- RSS route filters drafts (`!post.data.isDraft`), so listing and RSS behavior can diverge.
+- Metadata wrapper computes canonical URL via `new URL(Astro.url.pathname, Astro.site)`.
+- Open Graph image defaults to `/images/opengraph.png`.
+- `robots.txt` is generated at runtime and depends on `import.meta.env.SITE` for sitemap URL.
 
-## Build and Commit Pipeline Notes
+## Editing Safety Notes
 
-Pre-commit hook runs:
-
-1. `pnpm run format`
-2. `pnpm run lint`
-3. `pnpm run build`
-
-Commits are blocked on `production` and `development` branches.
-
-Plan code changes expecting build-level checks on every commit.
-
-## External Service and Network Notes
-
-- AI summaries use Google Gemini (`@google/genai`), model currently `gemini-2.5-flash`.
-- Summary cache uses Upstash Redis.
-- Remote image blur generation fetches URLs at runtime/build (`plaiceholder` wrapper).
-
-`src/features/about/sections/biography.astro` uses a remote GitHub avatar URL; remote fetch failures can impact image placeholder generation.
-
-## Localization and Date Handling Notes
-
-- Locale target: `pt-BR`.
-- `date-time-format.ts` normalizes timezone before formatting with `America/Sao_Paulo`.
-- Post page publication date uses `toLocaleDateString("pt-BR")`.
-
-Preserve locale consistency in new UI or content features.
-
-## Quality and Safety Notes
-
-- There is no automated test suite in this repository.
-- Validation and guard clauses in API/client scripts are important and should be kept.
-- `summary-content-ai` injects server-returned HTML into `innerHTML`; keep Markdown transformation path controlled and trusted.
+- Prefer small, domain-scoped edits; most behavior is split by page/feature/component boundaries.
+- When changing summary client script, validate all queried elements remain in template to avoid runtime no-op.
+- Keep markdown rendering pipeline aligned between cache miss and cache hit behavior.
+- Update reference docs in `.trae/reference/` whenever architecture or conventions change materially.
