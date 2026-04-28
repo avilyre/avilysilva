@@ -1,0 +1,328 @@
+---
+import X from "lucide-astro/X";
+import Sparkles from "lucide-astro/Sparkles";
+import { isGamificationEnabled } from "@src/features/gamification/utility/env";
+import { getActiveQuizForPost } from "@src/features/gamification/utility/quiz";
+
+type Props = {
+  postId: string;
+};
+
+const { postId } = Astro.props as Props;
+
+const showGamification = isGamificationEnabled();
+const quiz = showGamification ? await getActiveQuizForPost(postId) : null;
+const shouldRender = Boolean(showGamification && quiz);
+---
+
+{
+  shouldRender && (
+    <quiz-gamification data-post-id={postId}>
+      <button
+        id="quiz-cta-button"
+        type="button"
+        class="ai-neon-effect relative flex w-full items-center justify-center gap-2 rounded-md border-2 border-slate-800 bg-slate-900 px-4 py-3 text-sm transition-colors hover:bg-slate-800/50"
+      >
+        <Sparkles class="relative h-4 w-4 text-white" />
+        <span id="quiz-cta-text">ganhar xp: responder quiz</span>
+      </button>
+
+      <div
+        id="quiz-modal"
+        class="bg-background/60 fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-sm"
+      >
+        <div class="border-tertiary bg-background w-full max-w-[720px] rounded-xl border p-6">
+          <header class="mb-5 flex items-center justify-between gap-4">
+            <h2 class="text-primary m-0 text-xl font-semibold">quiz</h2>
+            <button
+              id="quiz-close"
+              type="button"
+              class="text-secondary hover:text-primary rounded-md border border-slate-800 bg-slate-900 p-2 transition-colors"
+              aria-label="fechar"
+              title="fechar"
+            >
+              <X class="h-4 w-4" />
+            </button>
+          </header>
+
+          <div id="quiz-state-loading" class="text-secondary text-sm">
+            carregando...
+          </div>
+
+          <div id="quiz-state-error" class="hidden">
+            <p class="text-secondary mb-3 text-sm">erro ao carregar o quiz</p>
+            <button
+              id="quiz-retry"
+              type="button"
+              class="text-primary rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-sm"
+            >
+              tentar novamente
+            </button>
+          </div>
+
+          <form id="quiz-form" class="hidden">
+            <div id="quiz-questions" class="mb-6 flex flex-col gap-6" />
+            <div class="flex items-center justify-end gap-3">
+              <button
+                id="quiz-submit"
+                type="submit"
+                class="text-primary rounded-md border border-slate-800 bg-slate-900 px-4 py-2 text-sm"
+              >
+                enviar
+              </button>
+            </div>
+          </form>
+
+          <div id="quiz-result" class="hidden">
+            <p id="quiz-result-text" class="text-secondary mb-4 text-sm" />
+            <div class="flex items-center justify-end gap-3">
+              <button
+                id="quiz-close-result"
+                type="button"
+                class="text-primary rounded-md border border-slate-800 bg-slate-900 px-4 py-2 text-sm"
+              >
+                fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </quiz-gamification>
+  )
+}
+
+<script>
+  import { getOrCreateAnonId } from "@src/features/gamification/utility/anon-id";
+
+  class QuizGamification extends HTMLElement {
+    connectedCallback() {
+      const postId = this.dataset.postId || "";
+
+      const ctaButton = this.querySelector("#quiz-cta-button");
+      const ctaText = this.querySelector("#quiz-cta-text");
+      const modal = this.querySelector("#quiz-modal");
+      const closeButton = this.querySelector("#quiz-close");
+      const retryButton = this.querySelector("#quiz-retry");
+      const closeResultButton = this.querySelector("#quiz-close-result");
+
+      const stateLoading = this.querySelector("#quiz-state-loading");
+      const stateError = this.querySelector("#quiz-state-error");
+      const form = this.querySelector("#quiz-form");
+      const questionsContainer = this.querySelector("#quiz-questions");
+      const submitButton = this.querySelector("#quiz-submit");
+      const result = this.querySelector("#quiz-result");
+      const resultText = this.querySelector("#quiz-result-text");
+
+      if (
+        !postId ||
+        !(ctaButton instanceof HTMLButtonElement) ||
+        !(ctaText instanceof HTMLElement) ||
+        !(modal instanceof HTMLElement) ||
+        !(closeButton instanceof HTMLButtonElement) ||
+        !(retryButton instanceof HTMLButtonElement) ||
+        !(closeResultButton instanceof HTMLButtonElement) ||
+        !(stateLoading instanceof HTMLElement) ||
+        !(stateError instanceof HTMLElement) ||
+        !(form instanceof HTMLFormElement) ||
+        !(questionsContainer instanceof HTMLElement) ||
+        !(submitButton instanceof HTMLButtonElement) ||
+        !(result instanceof HTMLElement) ||
+        !(resultText instanceof HTMLElement)
+      ) {
+        return;
+      }
+
+      let quiz = null;
+      let isLoadingQuiz = false;
+      let isSubmitting = false;
+
+      const setUiState = state => {
+        stateLoading.classList.toggle("hidden", state !== "loading");
+        stateError.classList.toggle("hidden", state !== "error");
+        form.classList.toggle("hidden", state !== "ready");
+        result.classList.toggle("hidden", state !== "result");
+      };
+
+      const openModal = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+
+      const closeModal = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      };
+
+      const renderQuiz = () => {
+        if (!quiz) return;
+
+        questionsContainer.innerHTML = "";
+
+        quiz.questions.forEach((question, index) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "flex flex-col gap-3";
+
+          const title = document.createElement("p");
+          title.className = "text-primary text-sm font-semibold";
+          title.textContent = `${index + 1}. ${question.title}`;
+          wrapper.appendChild(title);
+
+          const optionsWrapper = document.createElement("div");
+          optionsWrapper.className = "flex flex-col gap-2";
+
+          question.options.forEach(option => {
+            const label = document.createElement("label");
+            label.className =
+              "border-tertiary text-secondary flex cursor-pointer items-center gap-3 rounded-md border bg-slate-900/30 px-3 py-2 text-sm";
+
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `question_${question.id}`;
+            input.value = option.id;
+            input.className = "accent-white";
+
+            const text = document.createElement("span");
+            text.textContent = option.label;
+
+            label.appendChild(input);
+            label.appendChild(text);
+            optionsWrapper.appendChild(label);
+          });
+
+          wrapper.appendChild(optionsWrapper);
+          questionsContainer.appendChild(wrapper);
+        });
+      };
+
+      const loadQuiz = async () => {
+        if (isLoadingQuiz) return;
+        isLoadingQuiz = true;
+
+        setUiState("loading");
+
+        try {
+          const response = await fetch(`/api/quiz?postId=${postId}`, {
+            method: "GET",
+          });
+
+          if (!response.ok) {
+            setUiState("error");
+            isLoadingQuiz = false;
+            return;
+          }
+
+          quiz = await response.json();
+          renderQuiz();
+          setUiState("ready");
+          isLoadingQuiz = false;
+        } catch (e) {
+          setUiState("error");
+          isLoadingQuiz = false;
+        }
+      };
+
+      const collectAnswers = () => {
+        if (!quiz) return null;
+
+        const answers = quiz.questions.map(question => {
+          const selected = form.querySelector(
+            `input[name="question_${question.id}"]:checked`,
+          );
+          if (!(selected instanceof HTMLInputElement)) return null;
+          return { questionId: question.id, optionId: selected.value };
+        });
+
+        if (answers.some(a => a === null)) return null;
+        return answers;
+      };
+
+      const submitQuiz = async () => {
+        if (!quiz || isSubmitting) return;
+
+        const anonId = getOrCreateAnonId();
+        if (!anonId) return;
+
+        const answers = collectAnswers();
+        if (!answers) {
+          resultText.textContent =
+            "responda todas as perguntas antes de enviar";
+          setUiState("result");
+          return;
+        }
+
+        isSubmitting = true;
+        submitButton.setAttribute("disabled", "true");
+        ctaButton.setAttribute("disabled", "true");
+
+        try {
+          const response = await fetch("/api/quiz/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              anonId,
+              postId,
+              quizVersion: quiz.version,
+              answers,
+            }),
+          });
+
+          if (!response.ok) {
+            resultText.textContent = "erro ao enviar o quiz";
+            setUiState("result");
+            isSubmitting = false;
+            submitButton.removeAttribute("disabled");
+            ctaButton.removeAttribute("disabled");
+            return;
+          }
+
+          const payload = await response.json();
+
+          if (payload.awarded) {
+            resultText.textContent = `você acertou ${payload.correctCount}/${payload.totalQuestions} e ganhou +${payload.xpDelta} xp`;
+          } else {
+            resultText.textContent = `você acertou ${payload.correctCount}/${payload.totalQuestions}. xp já concedido para este quiz`;
+          }
+
+          ctaText.textContent = "quiz respondido";
+          window.dispatchEvent(new CustomEvent("gamification-updated"));
+
+          setUiState("result");
+          isSubmitting = false;
+          submitButton.removeAttribute("disabled");
+        } catch (e) {
+          resultText.textContent = "erro ao enviar o quiz";
+          setUiState("result");
+          isSubmitting = false;
+          submitButton.removeAttribute("disabled");
+          ctaButton.removeAttribute("disabled");
+        }
+      };
+
+      ctaButton.addEventListener("click", async () => {
+        openModal();
+        if (!quiz) await loadQuiz();
+      });
+
+      closeButton.addEventListener("click", () => {
+        closeModal();
+      });
+
+      closeResultButton.addEventListener("click", () => {
+        closeModal();
+      });
+
+      retryButton.addEventListener("click", loadQuiz);
+
+      modal.addEventListener("click", event => {
+        if (event.target === modal) closeModal();
+      });
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        await submitQuiz();
+      });
+    }
+  }
+
+  customElements.define("quiz-gamification", QuizGamification);
+</script>

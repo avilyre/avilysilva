@@ -23,32 +23,36 @@ const { company } = Astro.props;
     >
       {company.name}
     </a>
-    {company.outsourced?.map(outsourced => (
-      <span class="flex items-center">
-        <abbr
-          title={`Terceirizado na ${outsourced.name} pela ${company.name}`}
-        >
-          <ArrowRight class="text-secondary hover:text-primary mx-1 h-4 w-4 cursor-help" />
-        </abbr>
-        <a
-          href={outsourced.url}
-          target="_blank"
-          class="text-primary hover:text-secondary underline transition-colors"
-        >
-          {outsourced.name}
-        </a>
-      </span>
-    ))}
+    {
+      company.outsourced?.map(outsourced => (
+        <span class="flex items-center">
+          <abbr
+            title={`Terceirizado na ${outsourced.name} pela ${company.name}`}
+          >
+            <ArrowRight class="text-secondary hover:text-primary mx-1 h-4 w-4 cursor-help" />
+          </abbr>
+          <a
+            href={outsourced.url}
+            target="_blank"
+            class="text-primary hover:text-secondary underline transition-colors"
+          >
+            {outsourced.name}
+          </a>
+        </span>
+      ))
+    }
     {" - "}
     <span class="inline-block not-italic">{company.location}</span>
   </p>
   <p class="text-secondary text-sm lg:text-base">
     <span>{dateTimeFormat(new Date(company.startedAt))}</span>
     {" - "}
-    {company?.endedAt ? (
-      <span>{dateTimeFormat(new Date(company.endedAt))}</span>
-    ) : (
-      <span>atualmente</span>
-    )}
+    {
+      company?.endedAt ? (
+        <span>{dateTimeFormat(new Date(company.endedAt))}</span>
+      ) : (
+        <span>atualmente</span>
+      )
+    }
   </p>
 </div>

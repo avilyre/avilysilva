@@ -1,5 +1,9 @@
 ---
+import User from "lucide-astro/User";
+import { isGamificationEnabled } from "@src/features/gamification/utility/env";
+
 const logoLetter = "a";
+const showGamification = isGamificationEnabled();
 ---
 
 <nav class="flex h-24 items-center justify-between gap-8">
@@ -10,19 +14,73 @@ const logoLetter = "a";
     {logoLetter}
   </a>
 
-  <div class="flex gap-8 overflow-auto p-4">
-    <a href="/" class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base">
-      início
-    </a>
-    <a href="/about" class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base">
-      sobre mim
-    </a>
-    <a href="/blog" class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base">
-      blog
-    </a>
+  <div class="flex items-center gap-4 overflow-auto p-4">
+    <div class="flex gap-8">
+      <a
+        href="/"
+        class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base"
+      >
+        início
+      </a>
+      <a
+        href="/about"
+        class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base"
+      >
+        sobre mim
+      </a>
+      <a
+        href="/blog"
+        class="navbar-link flex items-center justify-center gap-2 text-sm text-nowrap transition-all lg:text-base"
+      >
+        blog
+      </a>
+    </div>
+
+    {
+      showGamification && (
+        <div class="relative">
+          <button
+            id="gamification-menu-button"
+            type="button"
+            class="text-foreground hover:text-accent flex items-center gap-2 rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-sm transition-colors hover:bg-slate-800/50"
+          >
+            <User class="h-4 w-4" />
+            <span>meu progresso</span>
+          </button>
+          <div
+            id="gamification-menu"
+            class="bg-background border-tertiary absolute right-0 mt-2 hidden w-[260px] rounded-md border p-4"
+          >
+            <div id="gamification-loading" class="text-secondary text-sm">
+              carregando...
+            </div>
+            <div id="gamification-error" class="hidden">
+              <p class="text-secondary mb-3 text-sm">erro ao carregar</p>
+              <button
+                id="gamification-retry"
+                type="button"
+                class="text-primary rounded-md border border-slate-800 bg-slate-900 px-3 py-2 text-sm"
+              >
+                tentar novamente
+              </button>
+            </div>
+            <div id="gamification-data" class="hidden">
+              <p class="text-secondary text-sm">nível</p>
+              <p id="gamification-level" class="text-primary mb-3 text-lg" />
+              <p class="text-secondary text-sm">xp total</p>
+              <p id="gamification-xp-total" class="text-primary mb-3 text-lg" />
+              <p class="text-secondary text-sm">xp para próximo nível</p>
+              <p id="gamification-xp-next" class="text-primary text-lg" />
+            </div>
+          </div>
+        </div>
+      )
+    }
   </div>
 </nav>
 <script>
+  import { getOrCreateAnonId } from "@src/features/gamification/utility/anon-id";
+
   window.addEventListener("DOMContentLoaded", () => {
     const activeLinkClasses =
       "relative text-accent after:absolute after:left-1/2 after:top-1/2 after:z-[-1] after:h-[calc(100%+14px)] after:w-[calc(100%+32px)] after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-md after:bg-slate-900 after:content-['']";
@@ -44,6 +102,90 @@ const logoLetter = "a";
       link.className = isCurrentLinkActive
         ? `${link.className} ${activeLinkClasses}`
         : `${link.className} ${nonActiveLinkClasses}`;
+    });
+
+    const menuButton = document.getElementById("gamification-menu-button");
+    const menu = document.getElementById("gamification-menu");
+    const loading = document.getElementById("gamification-loading");
+    const error = document.getElementById("gamification-error");
+    const retryButton = document.getElementById("gamification-retry");
+    const data = document.getElementById("gamification-data");
+    const level = document.getElementById("gamification-level");
+    const xpTotal = document.getElementById("gamification-xp-total");
+    const xpNext = document.getElementById("gamification-xp-next");
+
+    if (
+      !menuButton ||
+      !menu ||
+      !loading ||
+      !error ||
+      !retryButton ||
+      !data ||
+      !level ||
+      !xpTotal ||
+      !xpNext
+    ) {
+      return;
+    }
+
+    const setUiState = state => {
+      loading.classList.toggle("hidden", state !== "loading");
+      error.classList.toggle("hidden", state !== "error");
+      data.classList.toggle("hidden", state !== "ready");
+    };
+
+    const loadGamification = async () => {
+      setUiState("loading");
+
+      const anonId = getOrCreateAnonId();
+      if (!anonId) {
+        setUiState("error");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/me/gamification", {
+          method: "GET",
+          headers: { "X-Anon-Id": anonId },
+        });
+
+        if (!response.ok) {
+          setUiState("error");
+          return;
+        }
+
+        const payload = await response.json();
+        level.textContent = String(payload.level);
+        xpTotal.textContent = String(payload.xpTotal);
+        xpNext.textContent = String(payload.xpToNextLevel);
+        setUiState("ready");
+      } catch (e) {
+        setUiState("error");
+      }
+    };
+
+    const toggleMenu = async () => {
+      const isHidden = menu.classList.contains("hidden");
+      menu.classList.toggle("hidden", !isHidden);
+
+      if (isHidden) {
+        await loadGamification();
+      }
+    };
+
+    menuButton.addEventListener("click", toggleMenu);
+    retryButton.addEventListener("click", loadGamification);
+    window.addEventListener("gamification-updated", async () => {
+      const isHidden = menu.classList.contains("hidden");
+      if (!isHidden) {
+        await loadGamification();
+      }
+    });
+    document.addEventListener("click", event => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (menu.contains(target) || menuButton.contains(target)) return;
+      menu.classList.add("hidden");
     });
   });
 </script>

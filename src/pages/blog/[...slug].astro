@@ -12,6 +12,7 @@ import BackToPrev from "@src/features/blog/components/back-to-prev.astro";
 import ShareBar from "@src/features/blog/components/share-bar.astro";
 import GreatImage from "@src/components/great-image/index.astro";
 import SummaryAIButton from "@src/features/blog/components/summary-ai-button.astro";
+import QuizCTA from "@src/features/gamification/components/quiz-cta.astro";
 
 import { readingTime } from "@src/features/blog/utility";
 
@@ -121,15 +122,21 @@ const defaultCoverSize = {
         >
           <!-- IA Resum injected -->
           <div id="summary-skeleton-content" class="flex flex-col gap-4">
-            <div class="animate-pulse bg-tertiary w-full max-w-[400px] rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
+            <div
+              class="bg-tertiary w-full max-w-[400px] animate-pulse rounded-md p-4"
+            >
+            </div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
           </div>
         </div>
       </div>
     </summary-content-ai>
     <Content />
+  </div>
+  <div class="mt-10">
+    <QuizCTA postId={post.id} />
   </div>
   <footer class="text-secondary mt-8 rounded-md leading-relaxed text-balance">
     <h5 class="mb-4 text-xl font-semibold text-white lg:text-3xl">

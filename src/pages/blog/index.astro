@@ -7,12 +7,20 @@ import ContentList from "@src/features/blog/components/content-list.astro";
 import { PAGE_INFO } from "@src/constants/page-info";
 ---
 
-<PageWrapper title={PAGE_INFO.BLOG.TITLE} description={PAGE_INFO.BLOG.DESCRIPTION}>
+<PageWrapper
+  title={PAGE_INFO.BLOG.TITLE}
+  description={PAGE_INFO.BLOG.DESCRIPTION}
+>
   <main class="flex flex-col gap-14">
-    <PageHeader title={PAGE_INFO.BLOG.TITLE} description={PAGE_INFO.BLOG.DESCRIPTION}>
+    <PageHeader
+      title={PAGE_INFO.BLOG.TITLE}
+      description={PAGE_INFO.BLOG.DESCRIPTION}
+    >
       <a slot="title-icon" title="RSS" target="_blank" href="/rss.xml">
-        <Rss class="inline-block w-7 h-7 text-orange-400 hover:text-orange-300" />
-      </a>  
+        <Rss
+          class="inline-block h-7 w-7 text-orange-400 hover:text-orange-300"
+        />
+      </a>
     </PageHeader>
     <ContentList />
   </main>

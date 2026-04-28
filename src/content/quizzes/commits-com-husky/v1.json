@@ -1,0 +1,56 @@
+{
+  "postId": "commits-com-husky",
+  "version": 1,
+  "isActive": true,
+  "xpReward": 25,
+  "questions": [
+    {
+      "id": "q1",
+      "title": "Qual é o objetivo principal do Husky em projetos JavaScript?",
+      "options": [
+        {
+          "id": "a",
+          "label": "Executar hooks do Git automaticamente",
+          "isCorrect": true
+        },
+        {
+          "id": "b",
+          "label": "Gerar documentação a partir do código",
+          "isCorrect": false
+        },
+        {
+          "id": "c",
+          "label": "Substituir o gerenciador de pacotes",
+          "isCorrect": false
+        },
+        {
+          "id": "d",
+          "label": "Compilar TypeScript para JavaScript",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "title": "Em qual momento um hook pre-commit costuma rodar?",
+      "options": [
+        { "id": "a", "label": "Antes de criar um commit", "isCorrect": true },
+        {
+          "id": "b",
+          "label": "Após fazer push para o repositório remoto",
+          "isCorrect": false
+        },
+        {
+          "id": "c",
+          "label": "Ao abrir o editor de código",
+          "isCorrect": false
+        },
+        {
+          "id": "d",
+          "label": "Ao instalar as dependências do projeto",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}

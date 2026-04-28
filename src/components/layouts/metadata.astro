@@ -15,7 +15,9 @@ const {
   opengraphImage = "/images/opengraph.png",
 } = Astro.props;
 
-const metadataTitle = title ? `${title} // ${PAGE_INFO.SITE.TITLE}` : PAGE_INFO.SITE.TITLE;
+const metadataTitle = title
+  ? `${title} // ${PAGE_INFO.SITE.TITLE}`
+  : PAGE_INFO.SITE.TITLE;
 const metadataDescription = description ?? PAGE_INFO.SITE.DESCRIPTION;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);

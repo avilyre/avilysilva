@@ -7,9 +7,15 @@ import SoftSkillsSection from "@src/features/about/sections/soft-skills.astro";
 import { PAGE_INFO } from "@src/constants/page-info";
 ---
 
-<PageWrapper title={PAGE_INFO.ABOUT.TITLE} description={PAGE_INFO.ABOUT.DESCRIPTION}>
+<PageWrapper
+  title={PAGE_INFO.ABOUT.TITLE}
+  description={PAGE_INFO.ABOUT.DESCRIPTION}
+>
   <main class="flex flex-col gap-14">
-    <PageHeader title={PAGE_INFO.ABOUT.TITLE} description={PAGE_INFO.ABOUT.DESCRIPTION} />
+    <PageHeader
+      title={PAGE_INFO.ABOUT.TITLE}
+      description={PAGE_INFO.ABOUT.DESCRIPTION}
+    />
 
     <BiographySection />
 

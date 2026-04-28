@@ -15,4 +15,32 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+const quizzes = defineCollection({
+  loader: glob({
+    pattern: "**/*.json",
+    base: "./src/content/quizzes",
+  }),
+  schema: z.object({
+    postId: z.string(),
+    version: z.number().int().positive(),
+    isActive: z.boolean().default(true),
+    xpReward: z.number().int().nonnegative(),
+    questions: z
+      .array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          options: z.array(
+            z.object({
+              id: z.string(),
+              label: z.string(),
+              isCorrect: z.boolean(),
+            }),
+          ),
+        }),
+      )
+      .min(1),
+  }),
+});
+
+export const collections = { posts, quizzes };
