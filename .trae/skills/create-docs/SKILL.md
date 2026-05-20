@@ -1,32 +1,50 @@
 ---
-name: Update docs
-description: When the user wants to update the project documentation to keep AI flow optimized
+name: Create docs
+description: When the user wants to create the project documentation to keep AI flow optimized
 ---
 
 # Create docs based on the core project files
 
-Perform a complete re-analysis of the project, considering any new changes, and update the existing architecture files separated by domain.
-The domains must be updated in `.trae/reference/` using the following files:
-Note: Each file must contain a maximum of 200 lines. If it exceeds this limit, it must be compacted to comply with the rule.
-Existing structure must be preserved whenever possible, updating only what is necessary.
+Perform a complete analysis of the project, and create the architecture files separated by domain.
+The domains must be created in `.trae/reference/` using the following files:
 
-- `.trae/reference/code-patterns.md`
-- `.trae/reference/important-notes.md`
-- `.trae/reference/architecture.md`
-- `.trae/reference/design.md`
+Note: Each file must contain a maximum of 200 lines. If it exceeds this limit, it must be compacted to comply with the rule.
+Existing structure must be preserved whenever possible, creating only what is necessary.
+
+- `.trae/reference/code-patterns.md` - Coding conventions, folder ownership, patterns, API/content conventions, and styling implementation rules.
+- `.trae/reference/important-notes.md` - Operational constraints, environment requirements, runtime caveats, cache behavior, and high-impact safety notes.
+- `.trae/reference/architecture.md` - Route map, domain boundaries, integration points, and end-to-end runtime data flows.
+- `.trae/reference/design.md` - Design tokens, typography and layout rules, motion/effects, and markdown content styling behavior.
 
 Ensure that:
-- Outdated information is removed or corrected
-- New patterns, decisions, and structures are incorporated
-- Consistency across all files is maintained
-- No duplication of content across domains
+- Ensure agents can clearly understand when and how to use each reference in `AGENTS.md`
+- If `AGENTS.md` does not exist, create it in the root of the project with the following content for the domains created:
 
-After updating the domains, revise the `AGENTS.md` file:
-- Update references to each domain file (path + purpose)
-- Ensure agents can clearly understand when and how to use each reference
-- If `AGENTS.md` does not exist, create it in the root of the project 
+```
+# Agent Reference Index
 
-The final output must reflect the current state of the project, ensuring accuracy, clarity, and usability for AI agents.
+Use this index before making changes. Load only the domains that match the task.
+
+## Rules Domain
+
+- Path: `.trae/reference/code-patterns.md`
+- Purpose: Coding conventions, folder ownership, patterns, API/content conventions, and styling implementation rules.
+- When to use: Any code edit, refactor, new feature, or file placement decision.
+
+- Path: `.trae/reference/important-notes.md`
+- Purpose: Operational constraints, environment requirements, runtime caveats, cache behavior, and high-impact safety notes.
+- When to use: API/env changes, deployment/runtime behavior work, or risky edits touching data flow.
+
+## Architecture Domain
+
+- Path: `.trae/reference/architecture.md`
+- Purpose: Route map, domain boundaries, integration points, and end-to-end runtime data flows.
+- When to use: Planning features, tracing bugs across layers, or modifying page/API responsibilities.
+
+- Path: `.trae/reference/design.md`
+- Purpose: Design tokens, typography and layout rules, motion/effects, and markdown content styling behavior.
+- When to use: UI updates, CSS changes, animation edits, or visual consistency checks.
+```
 
 # Create good practices file
 ## Rules Clean code file
