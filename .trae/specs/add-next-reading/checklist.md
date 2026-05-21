@@ -1,0 +1,7 @@
+- [x] Ao final de qualquer artigo do blog, existe um bloco de recomendação de próxima leitura (quando aplicável).
+- [x] O bloco exibe uma lista com até 3 itens, ordenados do mais recente para o menos recente.
+- [x] Cada item exibe somente título e resumo do conteúdo recomendado.
+- [x] Cada item é clicável e direciona para a página do conteúdo recomendado.
+- [x] O artigo atual nunca aparece como item recomendado.
+- [x] Se não existir nenhum outro conteúdo disponível além do atual, o bloco de recomendação não é exibido.
+- [x] Se existirem apenas 1 ou 2 conteúdos disponíveis (excluindo o atual), o bloco é exibido com somente 1 ou 2 itens, respectivamente.

@@ -1,0 +1,43 @@
+---
+type RecommendationItem = {
+  slug: string;
+  title: string;
+  summary: string;
+};
+
+type Props = {
+  items: RecommendationItem[];
+};
+
+const { items } = Astro.props as Props;
+---
+
+{
+  items?.length > 0 && (
+    <section class="border-tertiary bg-tertiary/25 mt-10 flex flex-col gap-6 rounded-xl border p-6 lg:mt-14">
+      <header class="flex flex-col gap-2">
+        <h2 class="text-primary text-xl font-semibold lg:text-2xl">
+          Próxima leitura
+        </h2>
+        <p class="text-secondary text-sm leading-relaxed lg:text-base">
+          Se quiser continuar, aqui vão alguns posts pra ler na sequência.
+        </p>
+      </header>
+      <div class="flex flex-col gap-4">
+        {items.map(item => (
+          <a
+            href={`/blog/${item.slug}`}
+            class="border-tertiary bg-background/30 hover:bg-background/45 group flex flex-col gap-2 rounded-md border p-4 transition-colors"
+          >
+            <h3 class="text-primary text-base leading-tight font-semibold lg:text-lg">
+              {item.title}
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed lg:text-base">
+              {item.summary}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

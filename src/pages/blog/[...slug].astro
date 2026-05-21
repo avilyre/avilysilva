@@ -12,6 +12,7 @@ import BackToPrev from "@src/features/blog/components/back-to-prev.astro";
 import ShareBar from "@src/features/blog/components/share-bar.astro";
 import GreatImage from "@src/components/great-image/index.astro";
 import SummaryAIButton from "@src/features/blog/components/summary-ai-button.astro";
+import NextReading from "@src/features/blog/components/next-reading.astro";
 
 import { readingTime } from "@src/features/blog/utility";
 
@@ -27,6 +28,19 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"posts">;
 
 const post = Astro.props;
+
+const posts = await getCollection("posts");
+const recommendedPosts = posts
+  .filter(item => item.id !== post.id)
+  .sort((a, b) => {
+    return new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf();
+  })
+  .slice(0, 3)
+  .map(item => ({
+    slug: item.id,
+    title: item.data.title,
+    summary: item.data.summary,
+  }));
 
 const date = new Date(post.data.date);
 const readingTimeInMinutes = readingTime(post.body || "");
@@ -121,16 +135,20 @@ const defaultCoverSize = {
         >
           <!-- IA Resum injected -->
           <div id="summary-skeleton-content" class="flex flex-col gap-4">
-            <div class="animate-pulse bg-tertiary w-full max-w-[400px] rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
+            <div
+              class="bg-tertiary w-full max-w-[400px] animate-pulse rounded-md p-4"
+            >
+            </div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
           </div>
         </div>
       </div>
     </summary-content-ai>
     <Content />
   </div>
+  <NextReading items={recommendedPosts} />
   <footer class="text-secondary mt-8 rounded-md leading-relaxed text-balance">
     <h5 class="mb-4 text-xl font-semibold text-white lg:text-3xl">
       Concluída!
