@@ -8,7 +8,9 @@ type Context = {
 };
 
 export async function GET(context: Context) {
-  const posts = (await getCollection("posts")).filter(post => !post.data.isDraft);
+  const posts = (await getCollection("posts")).filter(
+    post => !post.data.isDraft,
+  );
 
   return rss({
     title: PAGE_INFO.SITE.TITLE,

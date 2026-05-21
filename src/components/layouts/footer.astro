@@ -5,13 +5,15 @@ import { SOCIALS } from "@src/constants/socials";
 <footer
   class="text-secondary flex h-[88px] items-center justify-center gap-8 rounded-2xl py-8"
 >
-  {SOCIALS.map(({ NAME, HREF }) => (
-    <a
-      href={HREF}
-      target="_blank"
-      class="hover:text-primary relative text-sm transition-colors lg:text-base"
-    >
-      {NAME}
-    </a>
-  ))}
+  {
+    SOCIALS.map(({ NAME, HREF }) => (
+      <a
+        href={HREF}
+        target="_blank"
+        class="hover:text-primary relative text-sm transition-colors lg:text-base"
+      >
+        {NAME}
+      </a>
+    ))
+  }
 </footer>
