@@ -5,11 +5,18 @@ pnpm run build
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
-RED=$(tput setaf 1)
-RESET=$(tput sgr0)
+RED=""
+RESET=""
+GREEN=""
+
+if command -v tput >/dev/null 2>&1 && [ -t 1 ]; then
+  RED=$(tput setaf 1)
+  RESET=$(tput sgr0)
+  GREEN=$(tput setaf 2)
+fi
+
 notAllowedBranchMessage="❌ ${RED}You can't commit to '$branch' branch!${RESET}"
 
-GREEN=$(tput setaf 2)
 successfullyMessage="${GREEN}You've successfully committed${RESET} 🚀!"
 
 case "$branch" in

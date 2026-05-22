@@ -12,6 +12,7 @@ import BackToPrev from "@src/features/blog/components/back-to-prev.astro";
 import ShareBar from "@src/features/blog/components/share-bar.astro";
 import GreatImage from "@src/components/great-image/index.astro";
 import SummaryAIButton from "@src/features/blog/components/summary-ai-button.astro";
+import NextReading from "@src/features/blog/components/next-reading.astro";
 
 import { readingTime } from "@src/features/blog/utility";
 
@@ -41,6 +42,15 @@ const defaultCoverSize = {
   height: 285,
   width: 800,
 };
+
+const allPosts = await getCollection("posts");
+
+const nextReadingPosts = allPosts
+  .filter(otherPost => otherPost.id !== post.id)
+  .sort(
+    (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
+  )
+  .slice(0, 3);
 ---
 
 <PageWrapper
@@ -121,10 +131,13 @@ const defaultCoverSize = {
         >
           <!-- IA Resum injected -->
           <div id="summary-skeleton-content" class="flex flex-col gap-4">
-            <div class="animate-pulse bg-tertiary w-full max-w-[400px] rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
-            <div class="animate-pulse bg-tertiary w-full rounded-md p-4"></div>
+            <div
+              class="bg-tertiary w-full max-w-[400px] animate-pulse rounded-md p-4"
+            >
+            </div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
+            <div class="bg-tertiary w-full animate-pulse rounded-md p-4"></div>
           </div>
         </div>
       </div>
@@ -139,6 +152,7 @@ const defaultCoverSize = {
       Parabéns por chegar concluir essa leitura e muito obrigado! 🎉
     </p>
   </footer>
+  {nextReadingPosts.length > 0 && <NextReading posts={nextReadingPosts} />}
 </PageWrapper>
 <script>
   import { waitForAnimation } from "@src/utility/wait-for-animation";

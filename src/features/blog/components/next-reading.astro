@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  posts: Array<CollectionEntry<"posts">>;
+};
+
+const { posts } = Astro.props as Props;
+
+const hoverClasses =
+  "relative before:absolute before:left-[50%] before:top-[50%] before:z-[-1] before:h-[calc(100%+32px)] before:w-[calc(100%+32px)] before:-translate-x-1/2 before:translate-y-[-50%] before:rounded-md before:bg-tertiary before:opacity-0 before:transition-opacity before:content-[''] hover:before:opacity-35";
+---
+
+<section class="mt-12 flex flex-col gap-10">
+  <h2 class="text-xl font-semibold text-white lg:text-3xl">Próxima leitura</h2>
+  <div class="flex flex-col gap-10">
+    {
+      posts.map(post => (
+        <a href={`/blog/${post.id}`} class={hoverClasses}>
+          <article class={`flex flex-col gap-3 ${hoverClasses}`}>
+            <h3 class="text-primary text-base leading-tight font-semibold lg:text-xl">
+              {post.data.title}
+            </h3>
+            <p class="text-secondary text-sm leading-relaxed lg:text-base">
+              {post.data.summary}
+            </p>
+          </article>
+        </a>
+      ))
+    }
+  </div>
+</section>
